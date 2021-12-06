@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "solarforge:solar_stone",
+    "solarforge:chiseled_solar_stone",
+    "solarforge:solar_stone_collumn",
+    "solarforge:solar_stone_bricks",
+    "solarforge:solar_stone_stairs",
+    "solarforge:solar_stone_collumn_horizontal",
+    "solarforge:solar_furnace",
+    "solarforge:ardo_rune_block",
+    "solarforge:kelda_rune_block",
+    "solarforge:tera_rune_block",
+    "solarforge:urba_rune_block",
+    "solarforge:zeta_rune_block",
+    "solarforge:fira_rune_block",
+    "solarforge:bonemealer",
+    "solarforge:inscription_stone",
+    "solarforge:giro_rune_block",
+    "solarforge:ultima_rune_block",
+    "solarforge:energized_stone",
+    "solarforge:catalyst_base",
+    "solarforge:speed_road"
+  ]
+}

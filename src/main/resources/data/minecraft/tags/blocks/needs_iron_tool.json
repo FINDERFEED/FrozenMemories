@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "solarforge:solar_lens",
+    "solarforge:magnet_block",
+    "solarforge:solar_energy_generator",
+    "solarforge:solar_energy_repeater",
+    "solarforge:illidium_block",
+    "solarforge:algadium_block",
+    "solarforge:solar_forge_infusion_pool",
+    "solarforge:repeater",
+    "solarforge:dimension_core",
+    "solarforge:radiant_portal_creator",
+    "solarforge:zap_turret_block",
+    "solarforge:ender_cracks"
+  ]
+}

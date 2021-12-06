@@ -1,0 +1,53 @@
+{
+  "solar_strike_explosion_sound": {
+    "sounds": [ "solarforge:ray_explosion_sound" ]
+  },
+  "solar_strike_buildup": {
+    "sounds": ["solarforge:ray_buildup_sound"]
+  },
+  "crossbow_shoot": {
+    "sounds": ["solarforge:crossbow_shoot_sound"]
+  },
+  "crossbow_charge": {
+    "sounds": ["solarforge:crossbow_charge_shot"]
+  },
+  "crossbow_shot_impact": {
+    "sounds": ["solarforge:crossbow_shot_impact"]
+  },
+  "solar_mortar_shoot": {
+    "sounds": ["solarforge:solar_mortar_shoot"]
+  },
+  "solar_mortar_projectile": {
+    "sounds": ["solarforge:solar_mortar_projectile"]
+  },
+  "gem_insert": {
+    "sounds": ["solarforge:gem_insert"]
+  },
+  "ray_trap_proc": {
+    "sounds": ["solarforge:ray_trap_proc"]
+  },
+  "button_press2": {
+    "sounds": ["solarforge:button_press2"]
+  },
+  "progression_unlock": {
+    "sounds": ["solarforge:progression_unlock"]
+  },
+  "zap_turret_shot": {
+    "sounds": ["solarforge:zap_turret_shot"]
+  },
+  "crystal_hit": {
+    "sounds": ["solarforge:crystal_hit"]
+  },
+  "solar_explosion": {
+    "sounds": ["solarforge:solar_explosion"]
+  },
+  "ambient_one": {
+    "sounds": ["solarforge:dimension/ambient_one"]
+  },
+  "ambient_two": {
+    "sounds": ["solarforge:dimension/ambient2"]
+  },
+  "night_beggining": {
+    "sounds": ["solarforge:dimension/night_beggining"]
+  }
+}
