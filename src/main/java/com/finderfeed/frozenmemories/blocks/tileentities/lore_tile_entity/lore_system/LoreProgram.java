@@ -13,7 +13,7 @@ public class LoreProgram {
     private LoreTileEntity tileEntity;
     private String id;
     private boolean isStageInProgress = false;
-
+    private boolean completed = false;
     private LoreProgram(Builder builder){
         this.tileEntity = builder.tileEntity;
         this.STAGES = builder.STAGES;
@@ -44,17 +44,23 @@ public class LoreProgram {
         }
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
     public void save(CompoundTag tag){
         for (LoreProgramStage stage : getStages()){
             stage.save(tag);
         }
         tag.putBoolean(id+"stageRunning",isStageInProgress);
+        tag.putInt(id+"currentStage",currentStage);
     }
 
     public void load(CompoundTag tag){
         for (LoreProgramStage stage : getStages()){
             stage.load(tag);
         }
+        currentStage = tag.getInt(id+"currentStage");
         isStageInProgress = tag.getBoolean(id+"stageRunning");
     }
 

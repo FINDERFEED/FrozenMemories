@@ -30,7 +30,7 @@ public class LoreProgramStage {
         MESSAGES = builder.MESSAGES;
         SCHEDULED_TASKS = builder.SCHEDULED_TASKS;
         id = builder.id;
-        messagesTime = MESSAGES.size()*MESSAGE_SEND_TIME;
+        messagesTime = (MESSAGES.size()-1)*MESSAGE_SEND_TIME;
         this.tileEntity = builder.tile;
     }
 
@@ -66,7 +66,8 @@ public class LoreProgramStage {
                     task.getRunnable().run(tileEntity);
                 }
             }else if (task.getType() == ScheduledTask.Type.REPETITIVE){
-                if (tick % task.getTick() == 0){
+
+                if ((tick != 0) && (tick % task.getTick() == 0)){
                     task.getRunnable().run(tileEntity);
                 }
             }
@@ -88,7 +89,7 @@ public class LoreProgramStage {
 
     public void load(CompoundTag tag){
         this.tick = tag.getInt(id+"tick");
-        this.currentMessage = tag.getInt(id+"curentMessage");
+        this.currentMessage = tag.getInt(id+"currentMessage");
         this.completed = tag.getBoolean(id+"completed");
     }
 

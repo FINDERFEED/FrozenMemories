@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.registries;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
+import com.finderfeed.frozenmemories.blocks.LoreTileBlock;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -14,10 +15,10 @@ public class BlocksRegistry {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, FrozenMemories.MOD_ID);
 
-    public static final RegistryObject<Block> LORE_TILE_BLOCK = registerBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK),"lore_tile_block");
+    public static final RegistryObject<Block> LORE_TILE_BLOCK = registerBlock(new LoreTileBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK)),"lore_tile_block");
 
-    public static RegistryObject<Block> registerBlock(BlockBehaviour.Properties props, String name){
-        return BLOCKS.register(name,()->new Block(props));
+    public static <T extends Block> RegistryObject<T> registerBlock(T block, String name){
+        return BLOCKS.register(name,()->block);
     }
 
 }

@@ -14,6 +14,8 @@ public class HarvestBlocksObjective extends Objective {
 
     public HarvestBlocksObjective(LoreTileEntity tile, Block block, Offset... offsets) {
         super(tile);
+        this.offsets = offsets;
+        this.blockToCheck = block;
     }
 
     @Override
