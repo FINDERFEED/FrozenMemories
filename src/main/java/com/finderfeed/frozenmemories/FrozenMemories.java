@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("frozenmemories")
+@Mod(FrozenMemories.MOD_ID)
 public class FrozenMemories
 {
 
@@ -42,15 +42,16 @@ public class FrozenMemories
     private static final Logger LOGGER = LogManager.getLogger();
 
     public FrozenMemories() {
+        MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ItemsRegistry.ITEMS.register(bus);
         BlocksRegistry.BLOCKS.register(bus);
+        ItemsRegistry.ITEMS.register(bus);
         TileEntitiesRegistry.TILE_ENTITIES.register(bus);
         ParticlesRegistry.PARTICLES_REGISTRY.register(bus);
 
 
-        MinecraftForge.EVENT_BUS.register(this);
+
     }
 
 

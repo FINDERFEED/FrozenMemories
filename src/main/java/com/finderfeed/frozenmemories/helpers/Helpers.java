@@ -2,10 +2,15 @@ package com.finderfeed.frozenmemories.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.phys.Vec3;
 
 public class Helpers {
 
     public static final BlockPos NULL_BLOCK_POS = new BlockPos(0,-100,0);
+
+    public static Vec3 blockCenter(BlockPos pos){
+        return new Vec3(pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5);
+    }
 
     public static void writeBlockPos(String id, BlockPos vec, CompoundTag tag){
         tag.putInt(id+"1",vec.getX());

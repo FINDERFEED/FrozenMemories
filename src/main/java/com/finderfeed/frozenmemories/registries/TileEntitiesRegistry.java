@@ -1,8 +1,7 @@
 package com.finderfeed.frozenmemories.registries;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
-import com.finderfeed.frozenmemories.blocks.tileentities.LoreTileEntity;
-import net.minecraft.world.item.Item;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

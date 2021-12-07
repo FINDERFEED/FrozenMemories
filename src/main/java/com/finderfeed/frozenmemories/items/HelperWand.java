@@ -1,13 +1,11 @@
 package com.finderfeed.frozenmemories.items;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
-import com.finderfeed.frozenmemories.blocks.tileentities.LoreTileEntity;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

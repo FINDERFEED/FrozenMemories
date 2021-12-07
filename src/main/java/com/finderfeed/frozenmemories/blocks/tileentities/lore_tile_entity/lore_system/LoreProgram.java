@@ -1,0 +1,86 @@
+package com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system;
+
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
+import net.minecraft.nbt.CompoundTag;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoreProgram {
+
+    private List<LoreProgramStage> STAGES = new ArrayList<>();
+    private int currentStage = 0;
+    private LoreTileEntity tileEntity;
+    private String id;
+    private boolean isStageInProgress = false;
+
+    private LoreProgram(Builder builder){
+        this.tileEntity = builder.tileEntity;
+        this.STAGES = builder.STAGES;
+        this.id = builder.id;
+    }
+
+    public void tick(){
+        LoreProgramStage stage = STAGES.get(currentStage);
+        if (stage.isCompleted()){
+            isStageInProgress = false;
+        }else{
+            isStageInProgress = true;
+            stage.tick();
+        }
+    }
+
+    public List<LoreProgramStage> getStages() {
+        return STAGES;
+    }
+
+    public boolean isStageRunning() {
+        return isStageInProgress;
+    }
+
+    public void nextStage(){
+        if (currentStage < STAGES.size()-1 ){
+            currentStage++;
+        }
+    }
+
+    public void save(CompoundTag tag){
+        for (LoreProgramStage stage : getStages()){
+            stage.save(tag);
+        }
+        tag.putBoolean(id+"stageRunning",isStageInProgress);
+    }
+
+    public void load(CompoundTag tag){
+        for (LoreProgramStage stage : getStages()){
+            stage.load(tag);
+        }
+        isStageInProgress = tag.getBoolean(id+"stageRunning");
+    }
+
+    public static class Builder{
+
+        private List<LoreProgramStage> STAGES = new ArrayList<>();
+        private LoreTileEntity tileEntity;
+        private String id;
+        private Builder(String id,LoreTileEntity tile){
+            this.tileEntity = tile;
+            this.id = id;
+        }
+
+        public static Builder start(String id,LoreTileEntity tileEntity){
+            return new Builder(id,tileEntity);
+        }
+
+        public Builder addStage(LoreProgramStage stage){
+            this.STAGES.add(stage);
+            return this;
+        }
+
+        public LoreProgram build(){
+            return new LoreProgram(this);
+        }
+
+
+    }
+}
