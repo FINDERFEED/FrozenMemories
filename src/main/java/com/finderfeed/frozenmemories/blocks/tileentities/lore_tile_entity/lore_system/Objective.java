@@ -7,9 +7,15 @@ import net.minecraft.world.level.Level;
 public abstract class Objective {
 
     private LoreTileEntity tile;
+    private String name;
 
-    public Objective(LoreTileEntity tile){
+    public Objective(String name,LoreTileEntity tile){
         this.tile = tile;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public abstract boolean check();

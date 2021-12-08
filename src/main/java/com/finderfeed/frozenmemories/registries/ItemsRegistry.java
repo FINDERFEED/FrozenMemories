@@ -18,6 +18,8 @@ public class ItemsRegistry {
 
     public static final RegistryObject<BlockItem> LORE_TILE_BLOCK = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)
             ,()->BlocksRegistry.LORE_TILE_BLOCK.get(),"lore_tile_block");
+    public static final RegistryObject<BlockItem> LORE_TILE_TRIGGER_BLOCK = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)
+            ,()->BlocksRegistry.LORE_TILE_TRIGGER_BLOCK.get(),"lore_tile_trigger_block");
 
     public static final RegistryObject<HelperWand> HELPER_WAND = registerItem(new HelperWand(),"helper_wand");
 

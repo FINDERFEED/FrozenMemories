@@ -13,7 +13,7 @@ import java.util.List;
 
 public class LoreProgramStage {
 
-    private static final int MESSAGE_SEND_TIME = 20;
+    public static final int MESSAGE_SEND_TIME = 20;
     private LoreTileEntity tileEntity;
     private List<String> MESSAGES;
     private List<Objective> OBJECTIVES;

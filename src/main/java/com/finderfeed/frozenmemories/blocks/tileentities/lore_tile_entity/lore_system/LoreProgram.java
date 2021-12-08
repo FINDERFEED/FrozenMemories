@@ -9,7 +9,7 @@ import java.util.List;
 public class LoreProgram {
 
     private List<LoreProgramStage> STAGES = new ArrayList<>();
-    private int currentStage = 0;
+    private int currentStage = -1;
     private LoreTileEntity tileEntity;
     private String id;
     private boolean isStageInProgress = false;
@@ -21,12 +21,14 @@ public class LoreProgram {
     }
 
     public void tick(){
-        LoreProgramStage stage = STAGES.get(currentStage);
-        if (stage.isCompleted()){
-            isStageInProgress = false;
-        }else{
-            isStageInProgress = true;
-            stage.tick();
+        if (currentStage != -1) {
+            LoreProgramStage stage = STAGES.get(currentStage);
+            if (stage.isCompleted()) {
+                isStageInProgress = false;
+            } else {
+                isStageInProgress = true;
+                stage.tick();
+            }
         }
     }
 
@@ -52,6 +54,7 @@ public class LoreProgram {
         for (LoreProgramStage stage : getStages()){
             stage.save(tag);
         }
+        tag.putBoolean(id+"completed",completed);
         tag.putBoolean(id+"stageRunning",isStageInProgress);
         tag.putInt(id+"currentStage",currentStage);
     }
@@ -60,6 +63,7 @@ public class LoreProgram {
         for (LoreProgramStage stage : getStages()){
             stage.load(tag);
         }
+        completed = tag.getBoolean(id+"completed");
         currentStage = tag.getInt(id+"currentStage");
         isStageInProgress = tag.getBoolean(id+"stageRunning");
     }

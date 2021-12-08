@@ -3,6 +3,7 @@ package com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.LoreProgram;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.LoreProgramStage;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.Offset;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.AllEntitesKilledObjective;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.HarvestBlocksObjective;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
@@ -27,30 +28,27 @@ public class LoreTileEntity extends BlockEntity {
     private LoreProgram currentLoreProgram = null;
 
     private LoreProgram ZERO_PROGRAM = LoreProgram.Builder.start("zero",this)
-            .addStage(LoreProgramStage.Builder.start("lore_program_first",this)
-            .addMessages("[EvilModDev]So you came...","[EvilModDev]The worst mistake in your life!","[EvilModDev]Die insect!")
-                    .addObjectives(new HarvestBlocksObjective(this, Blocks.BLACK_TERRACOTTA,Offset.of(0,1,0)))
-                    .addScheduledTask(ScheduledTask.create(ScheduledTask.Type.REPETITIVE,60,(tile)->{
-                        BlockPos[] pos1 = new BlockPos[]{
-                                Offset.of(5,0,0).apply(tile.getBlockPos()),
-                                Offset.of(0,0,5).apply(tile.getBlockPos()),
-                                Offset.of(-5,0,0).apply(tile.getBlockPos())
+            .addStage(LoreProgramStage.Builder.start("stage1",this)
+                    .addMessages("[You]What is this strange place?","[You]Wait what?!")
+                    .addObjectives(new AllEntitesKilledObjective("Kill all zombies",this,Zombie.class))
+                    .addScheduledTask(ScheduledTask.create(ScheduledTask.Type.SINGLE,LoreProgramStage.MESSAGE_SEND_TIME-1,(tile)->{
+                        BlockPos[] p = {
+                                Offset.of(-6,2,1).apply(tile.getBlockPos()),
+                                Offset.of(-6,2,-1).apply(tile.getBlockPos()),
+                                Offset.of(-4,2,1).apply(tile.getBlockPos()),
+                                Offset.of(-4,2,-1).apply(tile.getBlockPos())
                         };
-                        for (BlockPos pos : pos1){
+                        for (BlockPos pos : p){
                             Zombie zombie = new Zombie(tile.level);
                             zombie.setPos(Helpers.blockCenter(pos));
                             tile.level.addFreshEntity(zombie);
                         }
-                    })).build()
-            )
-            .addStage(LoreProgramStage.Builder.start("lore_program_second",this)
-                    .addMessages("Oh you are alive?","Take this!")
-                    .addObjectives(new HarvestBlocksObjective(this,Blocks.DIAMOND_BLOCK,Offset.of(1,0,0)))
-                    .addScheduledTask(ScheduledTask.create(ScheduledTask.Type.REPETITIVE,100,(tile)->{
-                        BlockPos pos = Offset.of(0,1,0).apply(tile.getBlockPos());
-                        level.explode(null,pos.getX(),pos.getY(),pos.getZ(),6, Explosion.BlockInteraction.NONE);
-                    })).build()
-            ).build();
+                    }))
+                    .build())
+            .addStage(LoreProgramStage.Builder.start("stage2",this)
+                    .addMessages("[You]This zombies wasn't ready for a minecraft professional!","[You]*Insert Obama medal meme*","[You]Oh diamonds!")
+                    .build())
+            .build();
 
     private LoreProgram[] PROGRAMS = new LoreProgram[]{
         ZERO_PROGRAM

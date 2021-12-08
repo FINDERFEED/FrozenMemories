@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "passable=true": { "model": "frozenmemories:block/lore_tile_trigger_block" },
+    "passable=false": { "model": "frozenmemories:block/lore_tile_trigger_block" }
+  }
+}
