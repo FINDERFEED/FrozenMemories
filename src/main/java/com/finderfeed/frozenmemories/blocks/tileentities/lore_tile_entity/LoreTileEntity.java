@@ -72,6 +72,9 @@ public class LoreTileEntity extends BlockEntity {
         return currentLoreProgram;
     }
 
+
+
+
     @Override
     protected void saveAdditional(CompoundTag tag) {
         for (LoreProgram prog : PROGRAMS){

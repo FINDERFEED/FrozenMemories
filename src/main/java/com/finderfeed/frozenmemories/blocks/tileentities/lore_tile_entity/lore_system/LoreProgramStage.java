@@ -82,12 +82,22 @@ public class LoreProgramStage {
     }
 
     public void save(CompoundTag tag){
+        for (Objective obj : OBJECTIVES){
+            if (obj instanceof SaveableObjective saveable){
+                saveable.save(tag);
+            }
+        }
         tag.putInt(id+"tick",tick);
         tag.putInt(id+"currentMessage",currentMessage);
         tag.putBoolean(id+"completed",completed);
     }
 
     public void load(CompoundTag tag){
+        for (Objective obj : OBJECTIVES){
+            if (obj instanceof SaveableObjective saveable){
+                saveable.load(tag);
+            }
+        }
         this.tick = tag.getInt(id+"tick");
         this.currentMessage = tag.getInt(id+"currentMessage");
         this.completed = tag.getBoolean(id+"completed");
