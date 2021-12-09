@@ -1,5 +1,6 @@
 package com.finderfeed.frozenmemories;
 
+import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
 import com.finderfeed.frozenmemories.registries.BlocksRegistry;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.finderfeed.frozenmemories.registries.ParticlesRegistry;
@@ -50,7 +51,7 @@ public class FrozenMemories
         TileEntitiesRegistry.TILE_ENTITIES.register(bus);
         ParticlesRegistry.PARTICLES_REGISTRY.register(bus);
 
-
+        PacketHandler.registerMessages();
 
     }
 

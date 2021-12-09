@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
@@ -49,12 +50,17 @@ public class LoreProgramStage {
 
             }else{
                 if (world.getGameTime() % 20 == 0){
+                    BlockState state = world.getBlockState(tileEntity.getBlockPos());
+                    tileEntity.setChanged();
+                    world.sendBlockUpdated(tileEntity.getBlockPos(),state,state,3);
                     boolean shouldBeCompleted = true;
                     for (Objective objective : OBJECTIVES){
                         if (!objective.check()){
                             shouldBeCompleted = false;
                         }
-                        break;
+                        if (!shouldBeCompleted) {
+                            break;
+                        }
                     }
                     completed = shouldBeCompleted;
                 }
@@ -76,6 +82,9 @@ public class LoreProgramStage {
     }
 
 
+    public List<Objective> getObjectives() {
+        return OBJECTIVES;
+    }
 
     public boolean isCompleted() {
         return completed;

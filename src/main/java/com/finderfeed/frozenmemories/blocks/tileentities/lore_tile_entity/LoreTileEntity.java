@@ -5,11 +5,18 @@ import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_s
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.Offset;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.AllEntitesKilledObjective;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.HarvestBlocksObjective;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.PlayerInventoryCheck;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -19,7 +26,10 @@ import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 
+import java.util.List;
+
 import static com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.LoreProgramStage.ScheduledTask;
+import static com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.PlayerInventoryCheck.ItemWithQuantity;
 
 public class LoreTileEntity extends BlockEntity {
 
@@ -30,7 +40,9 @@ public class LoreTileEntity extends BlockEntity {
     private LoreProgram ZERO_PROGRAM = LoreProgram.Builder.start("zero",this)
             .addStage(LoreProgramStage.Builder.start("stage1",this)
                     .addMessages("[You]What is this strange place?","[You]Wait what?!")
-                    .addObjectives(new AllEntitesKilledObjective("Kill all zombies",this,Zombie.class))
+                    .addObjectives(new AllEntitesKilledObjective("Kill all zombies",this,Zombie.class),
+                            new HarvestBlocksObjective("Dig dirt block",this,Blocks.DIRT,Offset.of(-5,2,0)),
+                            new PlayerInventoryCheck("Get 2 rotten flesh",this, ItemWithQuantity.of(Items.ROTTEN_FLESH,2)))
                     .addScheduledTask(ScheduledTask.create(ScheduledTask.Type.SINGLE,LoreProgramStage.MESSAGE_SEND_TIME-1,(tile)->{
                         BlockPos[] p = {
                                 Offset.of(-6,2,1).apply(tile.getBlockPos()),
@@ -72,8 +84,23 @@ public class LoreTileEntity extends BlockEntity {
         return currentLoreProgram;
     }
 
+    public LoreProgram[] getPrograms() {
+        return PROGRAMS;
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return ClientboundBlockEntityDataPacket.create(this,(tile)->tag);
+    }
 
 
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        this.load(pkt.getTag());
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
@@ -100,5 +127,11 @@ public class LoreTileEntity extends BlockEntity {
 
     public int getPlayerProgressionState() {
         return playerProgressionState;
+    }
+
+    @Nullable
+    public Player getPlayer(){
+        List<Player> player = level.getEntitiesOfClass(Player.class,PLAYER_SEEK_AABB.move(worldPosition));
+        return player.isEmpty() ? null : player.get(0);
     }
 }

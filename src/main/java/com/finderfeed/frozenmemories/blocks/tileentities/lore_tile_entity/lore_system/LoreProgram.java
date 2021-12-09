@@ -36,6 +36,10 @@ public class LoreProgram {
         return STAGES;
     }
 
+    public int getCurrentStage() {
+        return currentStage;
+    }
+
     public boolean isStageRunning() {
         return isStageInProgress;
     }
