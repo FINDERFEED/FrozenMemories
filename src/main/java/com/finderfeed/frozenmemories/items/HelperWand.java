@@ -2,10 +2,13 @@ package com.finderfeed.frozenmemories.items;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +23,20 @@ public class HelperWand extends Item {
         super(new Properties().stacksTo(1).tab(FrozenMemories.FROZEN_MEMORIES));
     }
 
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        if (world.isClientSide && hand == InteractionHand.MAIN_HAND){
+            int lvl = PlayerProgressionStage.getPlayerProgressionStage(player);
+            if (lvl == 0){
+                PlayerProgressionStage.setPlayerProgressionStage(player,1);
+                System.out.println("set to 1");
+            }else{
+                PlayerProgressionStage.setPlayerProgressionStage(player,0);
+                System.out.println("set to 0");
+            }
+        }
+        return super.use(world, player, hand);
+    }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
