@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.packet_handler;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
+import com.finderfeed.frozenmemories.packet_handler.packets.ClientboundUpdatePlayerStatePacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,8 +25,8 @@ public class PacketHandler {
         return ID++;
     }
 
-    public static void registerMessages(){
-
+    public static void registerPackets(){
+        INSTANCE.registerMessage(nextID(), ClientboundUpdatePlayerStatePacket.class,ClientboundUpdatePlayerStatePacket::toBytes,ClientboundUpdatePlayerStatePacket::new,ClientboundUpdatePlayerStatePacket::handle);
     }
 
 

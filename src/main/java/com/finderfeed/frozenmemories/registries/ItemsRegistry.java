@@ -26,6 +26,11 @@ public class ItemsRegistry {
 
     public static final RegistryObject<Item> PLACEHOLDER_UNKNOWN_ITEM = registerItem(new Item(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)),"unknown_item");
     public static final RegistryObject<FrozenMemoriesItem> TEST_ITEM = registerItem(new FrozenMemoriesItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),1),"test");
+    public static final RegistryObject<BlockItem> MEMORY_WALL = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
+            ()->BlocksRegistry.MEMORY_WALL.get(),"memory_wall");
+
+
+
 
     public static <T extends Item> RegistryObject<T> registerItem(T item,String name){
         return ITEMS.register(name,()->item);

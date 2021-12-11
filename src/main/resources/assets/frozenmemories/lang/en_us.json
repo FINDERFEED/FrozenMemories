@@ -1,4 +1,5 @@
 {
   "item.frozenmemories.test": "Diamond...?",
-  "item.frozenmemories.unknown_item": "-Unknown item-"
+  "item.frozenmemories.unknown_item": "-Unknown item-",
+  "entity.frozenmemories.frozen_zombie": "Frozen Zombie"
 }

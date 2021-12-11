@@ -18,6 +18,7 @@ public class BlocksRegistry {
 
     public static final RegistryObject<Block> LORE_TILE_BLOCK = registerBlock(new LoreTileBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK)),"lore_tile_block");
     public static final RegistryObject<Block> LORE_TILE_TRIGGER_BLOCK = registerBlock(new LoreTriggerBlock(BlockBehaviour.Properties.copy(Blocks.LIGHT).lightLevel((d)->0)),"lore_tile_trigger_block");
+    public static final RegistryObject<Block> MEMORY_WALL = registerBlock(new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)),"memory_wall");
 
     public static <T extends Block> RegistryObject<T> registerBlock(T block, String name){
         return BLOCKS.register(name,()->block);
