@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.registries;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
+import com.finderfeed.frozenmemories.items.BuildingHelperWand;
 import com.finderfeed.frozenmemories.items.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.items.HelperWand;
 import net.minecraft.world.item.BlockItem;
@@ -23,12 +24,14 @@ public class ItemsRegistry {
             ,()->BlocksRegistry.LORE_TILE_TRIGGER_BLOCK.get(),"lore_tile_trigger_block");
 
     public static final RegistryObject<HelperWand> HELPER_WAND = registerItem(new HelperWand(),"helper_wand");
+    public static final RegistryObject<BuildingHelperWand> BUILDING_WAND = registerItem(new BuildingHelperWand(),"building_wand");
 
     public static final RegistryObject<Item> PLACEHOLDER_UNKNOWN_ITEM = registerItem(new Item(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)),"unknown_item");
     public static final RegistryObject<FrozenMemoriesItem> TEST_ITEM = registerItem(new FrozenMemoriesItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),1),"test");
     public static final RegistryObject<BlockItem> MEMORY_WALL = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
             ()->BlocksRegistry.MEMORY_WALL.get(),"memory_wall");
-
+    public static final RegistryObject<BlockItem> FROZEN_ZOMBIE_TRAP = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
+            ()->BlocksRegistry.FROZEN_ZOMBIE_TRAP.get(),"frozen_zombie_trap");
 
 
 

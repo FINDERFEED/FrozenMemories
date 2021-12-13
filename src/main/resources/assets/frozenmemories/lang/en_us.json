@@ -1,5 +1,7 @@
 {
   "item.frozenmemories.test": "Diamond...?",
   "item.frozenmemories.unknown_item": "-Unknown item-",
-  "entity.frozenmemories.frozen_zombie": "Frozen Zombie"
+  "entity.frozenmemories.frozen_zombie": "Frozen Zombie",
+  "item.frozenmemories.building_wand": "Build Helper wand",
+  "block.frozenmemories.frozen_zombie_trap": "Zombie trap"
 }

@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "frozenmemories:block/memory_wall" }
+  }
+}

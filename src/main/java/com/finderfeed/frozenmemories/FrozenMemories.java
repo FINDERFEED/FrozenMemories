@@ -37,6 +37,8 @@ public class FrozenMemories
         TileEntitiesRegistry.TILE_ENTITIES.register(bus);
         ParticlesRegistry.PARTICLES_REGISTRY.register(bus);
         EntitiesRegistry.DEFERRED_REGISTER.register(bus);
+
+        BiomesRegistry.DEFERRED_REGISTER.register(bus);
         PacketHandler.registerPackets();
 
     }

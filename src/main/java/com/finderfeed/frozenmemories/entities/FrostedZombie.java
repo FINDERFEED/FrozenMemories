@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.entities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,10 +27,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FrostedZombie extends Monster {
+    public static final int MAX_ERUPTING_TIME = 50;
+
+    private int erruptingTicks = 0;
+    private boolean ERUPTING = false;
+
     public FrostedZombie(EntityType<? extends Monster> type, Level world) {
         super(type, world);
     }
 
+
+    public FrostedZombie(EntityType<? extends Monster> type, Level world,boolean erupting) {
+        super(type, world);
+        this.ERUPTING = erupting;
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
@@ -61,6 +72,11 @@ public class FrostedZombie extends Monster {
 
 
     @Override
+    public boolean isInvulnerable() {
+        return ERUPTING && (erruptingTicks < MAX_ERUPTING_TIME) ? true : super.isInvulnerable();
+    }
+
+    @Override
     protected boolean isSunBurnTick() {
         return false;
     }
@@ -74,6 +90,37 @@ public class FrostedZombie extends Monster {
             }
         }
         return super.doHurtTarget(ent);
+    }
+
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (ERUPTING && (erruptingTicks <= MAX_ERUPTING_TIME) ){
+            goalSelector.getRunningGoals().forEach(WrappedGoal::stop);
+            erruptingTicks++;
+            this.setDeltaMovement(0,0.03,0);
+        }
+    }
+
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        return ERUPTING && (erruptingTicks < MAX_ERUPTING_TIME) ? false : super.canCollideWith(entity);
+    }
+
+    @Override
+    public boolean save(CompoundTag tag) {
+        tag.putBoolean("eruptingBool",ERUPTING);
+        tag.putInt("erupting",erruptingTicks);
+        return super.save(tag);
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        this.ERUPTING = tag.getBoolean("eruptingBool");
+        this.erruptingTicks = tag.getInt("erupting");
+        super.load(tag);
     }
 
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
