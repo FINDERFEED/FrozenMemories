@@ -2,6 +2,7 @@ package com.finderfeed.frozenmemories.registries;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.FrozenZombieTile;
+import com.finderfeed.frozenmemories.blocks.tileentities.MemoryTowerTile;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,4 +19,6 @@ public class TileEntitiesRegistry {
     public static final RegistryObject<BlockEntityType<FrozenZombieTile>> FROZEN_ZOMBIE_TRAP = TILE_ENTITIES.register("frozen_zombie_trap",()->
             BlockEntityType.Builder.of(FrozenZombieTile::new,BlocksRegistry.FROZEN_ZOMBIE_TRAP.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<MemoryTowerTile>> MEMORY_TOWER = TILE_ENTITIES.register("memory_tower",()->
+            BlockEntityType.Builder.of(MemoryTowerTile::new,BlocksRegistry.MEMORY_TOWER.get()).build(null));
 }

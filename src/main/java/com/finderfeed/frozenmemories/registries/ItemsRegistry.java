@@ -32,7 +32,8 @@ public class ItemsRegistry {
             ()->BlocksRegistry.MEMORY_WALL.get(),"memory_wall");
     public static final RegistryObject<BlockItem> FROZEN_ZOMBIE_TRAP = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
             ()->BlocksRegistry.FROZEN_ZOMBIE_TRAP.get(),"frozen_zombie_trap");
-
+    public static final RegistryObject<BlockItem> MEMORY_TOWER = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
+            ()->BlocksRegistry.MEMORY_TOWER.get(),"memory_tower");
 
 
     public static <T extends Item> RegistryObject<T> registerItem(T item,String name){

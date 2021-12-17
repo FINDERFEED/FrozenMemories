@@ -8,7 +8,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -25,5 +27,11 @@ public class ForgeEventHandler {
         PlayerProgressionStage.handleCloneEvent(event);
     }
 
+    @SubscribeEvent
+    public static void addFeatures(BiomeLoadingEvent event){
+        if (event.getCategory() == Biome.BiomeCategory.ICY){
+            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION,ModEventHandler.PlacedFeatures.FROZEN_ZOMBIE_TRAPS);
+        }
+    }
 
 }
