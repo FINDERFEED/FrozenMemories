@@ -4,7 +4,10 @@ package com.finderfeed.frozenmemories.events;
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.*;
+import com.finderfeed.frozenmemories.helpers.ClientHelpers;
 import com.finderfeed.frozenmemories.helpers.Helpers;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -13,6 +16,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -28,6 +33,9 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FrozenMemories.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE,value = Dist.CLIENT)
 public class ClientForgeEventHandler {
+
+    public static final ResourceLocation LOW_HP_OVERLAY = new ResourceLocation(FrozenMemories.MOD_ID,"textures/misc/low_hp_overlay.png");
+    public static final ResourceLocation LOW_HP_OVERLAY1 = new ResourceLocation(FrozenMemories.MOD_ID,"textures/misc/low_hp_overlay1.png");
 
     public static List<BlockPos> BORDER_RENDER_POSITIONS = new ArrayList<>();
     public static List<ClientObjective> ALL_OBJECTIVES = new ArrayList<>();
@@ -53,6 +61,22 @@ public class ClientForgeEventHandler {
                         Gui.drawString(matrices,f,d,10 + offs,20+9*i,0xffffff);
                     }
                 }
+            }
+
+
+            Player player = ClientHelpers.clientPlayer();
+            if (player.getHealth() <= 10 && (player.level.dimension() == ForgeEventHandler.MEMORY) ){
+                float percent = (10-player.getHealth()) / 10;
+//                RenderSystem.setShaderTexture(0,LOW_HP_OVERLAY);
+//                Window window = event.getWindow();
+//                matrices.pushPose();
+                RenderSystem.enableBlend();
+                Gui gui = Minecraft.getInstance().gui;
+//
+                gui.renderTextureOverlay(LOW_HP_OVERLAY,percent);
+//                RenderSystem.setShaderColor(1,1,1,percent);
+//                Gui.blit(matrices,0,0,0,0,window.getGuiScaledWidth(),window.getGuiScaledHeight(),480,270);
+//                matrices.popPose();
             }
         }
     }

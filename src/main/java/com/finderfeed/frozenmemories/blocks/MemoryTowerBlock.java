@@ -1,5 +1,6 @@
 package com.finderfeed.frozenmemories.blocks;
 
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.helpers.Helpers;
@@ -37,7 +38,7 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult ctx) {
-        if (world instanceof  ServerLevel level && hand == InteractionHand.MAIN_HAND){
+        if (world instanceof  ServerLevel level && hand == InteractionHand.MAIN_HAND && world.dimension() == Level.OVERWORLD){
             int stage = PlayerProgressionStage.getPlayerProgressionStage(player);
             if (stage <= 7){
                 BlockPos randomPos = new BlockPos(
@@ -48,21 +49,23 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
                     ServerLevel destination = world.getServer().getLevel(ForgeEventHandler.MEMORY);
                     if (destination != null){
                         StructureTemplate template = Helpers.getStageStructureTemplate(level,stage);
-                        Helpers.writeBlockPos(Helpers.TAG_RETURN_BLOCKPOS,player.getOnPos(),player.getPersistentData());
-                        ListTag tag = new ListTag();
-                        player.getInventory().save(tag);
-                        player.getInventory().clearContent();
-                        player.getPersistentData().put(Helpers.TAG_INVENTORY,tag);
-
+                        saveInventoryAndPos(player);
 
                         destination.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(randomPos), 3,randomPos);
                         StructurePlaceSettings set = new StructurePlaceSettings().addProcessor(BlockIgnoreProcessor.AIR).setRandom(destination.random).setRotation(Rotation.NONE).setBoundingBox(BoundingBox.infinite());
                         player.changeDimension(destination, teleporter);
                         BlockPos position = ProgressionState.STATES.get(stage).getOffset().apply(randomPos);
                         setBoxAround(destination,position);
+
                         ForgeEventHandler.addServerTask(new ServerWorldTask(60,ForgeEventHandler.MEMORY,()->{
                             clearBoxAround(destination,position);
                             template.placeInWorld(destination,randomPos,randomPos,set,destination.random,Block.UPDATE_CLIENTS);
+                            template.filterBlocks(randomPos,set,BlocksRegistry.LORE_TILE_BLOCK.get()).forEach((info)->{
+                                BlockEntity tile = destination.getBlockEntity(info.pos);
+                                if (tile instanceof LoreTileEntity tileEntity){
+                                    tileEntity.setPlayerProgressionState(stage);
+                                }
+                            });
                         }));
                         //template.placeInWorld(destination,randomPos,randomPos,set,destination.random,4);
                     }
@@ -72,6 +75,13 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
             }
         }
         return super.use(state, world, pos, player, hand, ctx);
+    }
+    private void saveInventoryAndPos(Player player){
+        Helpers.writeBlockPos(Helpers.TAG_RETURN_BLOCKPOS,player.getOnPos(),player.getPersistentData());
+        ListTag tag = new ListTag();
+        player.getInventory().save(tag);
+        player.getInventory().clearContent();
+        player.getPersistentData().put(Helpers.TAG_INVENTORY,tag);
     }
 
     private void setBoxAround(ServerLevel level,BlockPos pos){

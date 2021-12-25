@@ -54,9 +54,9 @@ public class HelperWand extends Item {
 //        if (world instanceof ServerLevel level){
 //            ForgeEventHandler.addServerTask(new ServerWorldTask(200,Level.OVERWORLD,()-> world.setBlock(player.getOnPos(), Blocks.DAMAGED_ANVIL.defaultBlockState(),3)));
 //        }
-        if (world.isClientSide){
-            Minecraft.getInstance().levelRenderer.allChanged();
-        }
+//        if (world.isClientSide){
+//            Minecraft.getInstance().levelRenderer.allChanged();
+//        }
         return super.use(world, player, hand);
     }
 
