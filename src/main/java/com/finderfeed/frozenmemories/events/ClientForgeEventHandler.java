@@ -63,16 +63,17 @@ public class ClientForgeEventHandler {
     public static void clientPlayerTickEvent(TickEvent.PlayerTickEvent event){
         if (event.phase == TickEvent.Phase.START && event.side == LogicalSide.CLIENT){
             Level world = event.player.level;
-            if (world.getGameTime() % 20 == 0) {
-                LevelChunk[] chunks = Helpers.getSurroundingChunks(world, event.player.getOnPos());
-                populateObjectivesList(chunks);
+            if (world.dimension() == ForgeEventHandler.MEMORY) {
+                if (world.getGameTime() % 20 == 0) {
+                    List<LevelChunk> chunks = Helpers.getChunksInRadius(world, event.player.getOnPos(),3);
+                    populateObjectivesList(chunks);
+                }
             }
-
         }
     }
 
 
-    private static void populateObjectivesList(LevelChunk[] chunks){
+    private static void populateObjectivesList(List<LevelChunk> chunks){
         ALL_OBJECTIVES.clear();
         for (LevelChunk chunk : chunks){
             for (BlockEntity e : chunk.getBlockEntities().values()){

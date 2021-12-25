@@ -22,12 +22,16 @@ public class LoreProgram {
 
     public void tick(){
         if (currentStage != -1) {
-            LoreProgramStage stage = STAGES.get(currentStage);
-            if (stage.isCompleted()) {
-                isStageInProgress = false;
-            } else {
-                isStageInProgress = true;
-                stage.tick();
+            if (currentStage < STAGES.size()) {
+                LoreProgramStage stage = STAGES.get(currentStage);
+                if (stage.isCompleted()) {
+                    isStageInProgress = false;
+                } else {
+                    isStageInProgress = true;
+                    stage.tick();
+                }
+            }else{
+                this.completed = true;
             }
         }
     }
@@ -45,9 +49,9 @@ public class LoreProgram {
     }
 
     public void nextStage(){
-        if (currentStage < STAGES.size()-1 ){
+//        if (currentStage < STAGES.size()-1 ){
             currentStage++;
-        }
+//        }
     }
 
     public boolean isCompleted() {

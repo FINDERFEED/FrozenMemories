@@ -19,9 +19,9 @@ public class ItemsRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, FrozenMemories.MOD_ID);
 
     public static final RegistryObject<BlockItem> LORE_TILE_BLOCK = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)
-            ,()->BlocksRegistry.LORE_TILE_BLOCK.get(),"lore_tile_block");
+            , BlocksRegistry.LORE_TILE_BLOCK,"lore_tile_block");
     public static final RegistryObject<BlockItem> LORE_TILE_TRIGGER_BLOCK = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)
-            ,()->BlocksRegistry.LORE_TILE_TRIGGER_BLOCK.get(),"lore_tile_trigger_block");
+            , BlocksRegistry.LORE_TILE_TRIGGER_BLOCK,"lore_tile_trigger_block");
 
     public static final RegistryObject<HelperWand> HELPER_WAND = registerItem(new HelperWand(),"helper_wand");
     public static final RegistryObject<BuildingHelperWand> BUILDING_WAND = registerItem(new BuildingHelperWand(),"building_wand");
@@ -29,11 +29,13 @@ public class ItemsRegistry {
     public static final RegistryObject<Item> PLACEHOLDER_UNKNOWN_ITEM = registerItem(new Item(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)),"unknown_item");
     public static final RegistryObject<FrozenMemoriesItem> TEST_ITEM = registerItem(new FrozenMemoriesItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),1),"test");
     public static final RegistryObject<BlockItem> MEMORY_WALL = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
-            ()->BlocksRegistry.MEMORY_WALL.get(),"memory_wall");
+            BlocksRegistry.MEMORY_WALL,"memory_wall");
     public static final RegistryObject<BlockItem> FROZEN_ZOMBIE_TRAP = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
-            ()->BlocksRegistry.FROZEN_ZOMBIE_TRAP.get(),"frozen_zombie_trap");
+            BlocksRegistry.FROZEN_ZOMBIE_TRAP,"frozen_zombie_trap");
     public static final RegistryObject<BlockItem> MEMORY_TOWER = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
-            ()->BlocksRegistry.MEMORY_TOWER.get(),"memory_tower");
+            BlocksRegistry.MEMORY_TOWER,"memory_tower");
+    public static final RegistryObject<BlockItem> MEMORY_CRACK = registerBlockItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),
+            BlocksRegistry.MEMORY_CRACK,"memory_crack");
 
 
     public static <T extends Item> RegistryObject<T> registerItem(T item,String name){

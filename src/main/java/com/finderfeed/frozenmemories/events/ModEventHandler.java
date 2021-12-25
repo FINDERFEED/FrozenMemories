@@ -48,6 +48,13 @@ public class ModEventHandler {
                     InSquarePlacement.spread()
             );
             registerPlacedFeature(PlacedFeatures.FROZEN_ZOMBIE_TRAPS,"frozen_zombie_traps");
+
+            ConfiguredFeatures.MEMORY_TOWER = Feature.SIMPLE_BLOCK.configured(new SimpleBlockConfiguration(BlockStateProvider.simple(BlocksRegistry.MEMORY_TOWER.get())));
+            registerConfiguredFeature(ConfiguredFeatures.MEMORY_TOWER,"memory_tower");
+            PlacedFeatures.MEMORY_TOWER = ConfiguredFeatures.MEMORY_TOWER.placed(
+                    RarityFilter.onAverageOnceEvery(150),InSquarePlacement.spread(),HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)
+            );
+            registerPlacedFeature(PlacedFeatures.MEMORY_TOWER,"memory_tower");
         });
     }
 
@@ -63,9 +70,11 @@ public class ModEventHandler {
 
     public static class ConfiguredFeatures{
         public static ConfiguredFeature<?,?> FROZEN_ZOMBIE_TRAPS;
+        public static ConfiguredFeature<?,?> MEMORY_TOWER;
     }
     public static class PlacedFeatures{
         public static PlacedFeature FROZEN_ZOMBIE_TRAPS;
+        public static PlacedFeature MEMORY_TOWER;
     }
 }
 

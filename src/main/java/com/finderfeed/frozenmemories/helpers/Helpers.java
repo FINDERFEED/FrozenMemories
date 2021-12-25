@@ -1,12 +1,24 @@
 package com.finderfeed.frozenmemories.helpers;
 
+import com.finderfeed.frozenmemories.FrozenMemories;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Helpers {
+
+    public static final Random RANDOM = new Random();
+    public static final String TAG_INVENTORY = "player_saved_inventory";
+    public static final String TAG_RETURN_BLOCKPOS = "return_block_pos";
 
     public static final BlockPos NULL_BLOCK_POS = new BlockPos(0,-100,0);
 
@@ -24,6 +36,16 @@ public class Helpers {
         return new BlockPos(tag.getInt(id+"1"),tag.getInt(id+"2"),tag.getInt(id+"3"));
     }
 
+    public static List<LevelChunk> getChunksInRadius(Level level,BlockPos pos,int radius){
+        List<LevelChunk> chunks = new ArrayList<>();
+        for (int i = -radius;i <= radius;i++){
+            for (int g = -radius;g <= radius;g++){
+                    chunks.add(level.getChunkAt(pos.offset(i*16,0,g*16)));
+            }
+        }
+        return chunks;
+    }
+
     public static LevelChunk[] getSurroundingChunks(Level level, BlockPos worldPosition){
         return new LevelChunk[]{level.getChunkAt(worldPosition),level.getChunkAt(worldPosition.offset(16,0,0)),level.getChunkAt(worldPosition.offset(0,0,16)),
                 level.getChunkAt(worldPosition.offset(-16,0,0)),level.getChunkAt(worldPosition.offset(0,0,-16)),level.getChunkAt(worldPosition.offset(16,0,16)),
@@ -31,5 +53,12 @@ public class Helpers {
     }
 
 
+    public static StructureTemplate getStageStructureTemplate(ServerLevel world,int stage){
+        return world.getStructureManager().getOrCreate(new ResourceLocation("frozenmemories:stage_structures/stage_"+stage));
+    }
+
+    public static int randomPlusMinus(){
+        return RANDOM.nextInt(2) == 0 ? 1 : -1;
+    }
 
 }

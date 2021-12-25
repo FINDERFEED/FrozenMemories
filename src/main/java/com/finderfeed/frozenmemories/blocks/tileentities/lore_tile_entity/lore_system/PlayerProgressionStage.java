@@ -18,6 +18,9 @@ public class PlayerProgressionStage {
     public static void incrementPlayerProgressionStage(Player player){
         setPlayerProgressionStage(player,getPlayerProgressionStage(player)+1);
     }
+    public static void decrementPlayerProgressionStage(Player player){
+        setPlayerProgressionStage(player,getPlayerProgressionStage(player)-1);
+    }
 
 
     public static void handleCloneEvent(PlayerEvent.Clone event){

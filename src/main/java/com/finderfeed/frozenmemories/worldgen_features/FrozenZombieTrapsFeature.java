@@ -1,5 +1,6 @@
 package com.finderfeed.frozenmemories.worldgen_features;
 
+
 import com.finderfeed.frozenmemories.registries.BlocksRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
 
 public class FrozenZombieTrapsFeature extends Feature<NoneFeatureConfiguration> {
     public FrozenZombieTrapsFeature(Codec<NoneFeatureConfiguration> p_65786_) {

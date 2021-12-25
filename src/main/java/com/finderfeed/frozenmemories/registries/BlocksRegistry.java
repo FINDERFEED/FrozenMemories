@@ -1,10 +1,7 @@
 package com.finderfeed.frozenmemories.registries;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
-import com.finderfeed.frozenmemories.blocks.FrozenZombieTrapBlock;
-import com.finderfeed.frozenmemories.blocks.LoreTileBlock;
-import com.finderfeed.frozenmemories.blocks.LoreTriggerBlock;
-import com.finderfeed.frozenmemories.blocks.MemoryTowerBlock;
+import com.finderfeed.frozenmemories.blocks.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,6 +21,7 @@ public class BlocksRegistry {
     public static final RegistryObject<Block> MEMORY_WALL = registerBlock(new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)),"memory_wall");
     public static final RegistryObject<Block> MEMORY_TOWER = registerBlock(new MemoryTowerBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noOcclusion()),"memory_tower");
     public static final RegistryObject<Block> FROZEN_ZOMBIE_TRAP = registerBlock(new FrozenZombieTrapBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK).sound(SoundType.GLASS)),"frozen_zombie_trap");
+    public static final RegistryObject<Block> MEMORY_CRACK = registerBlock(new MemoryCrack(),"memory_crack");
 
 
     public static <T extends Block> RegistryObject<T> registerBlock(T block, String name){

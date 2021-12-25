@@ -7,6 +7,7 @@ import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_s
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.HarvestBlocksObjective;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.PlayerInventoryCheck;
 import com.finderfeed.frozenmemories.helpers.Helpers;
+import com.finderfeed.frozenmemories.misc.ItemWithQuantity;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.LoreProgramStage.ScheduledTask;
-import static com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.objectives.PlayerInventoryCheck.ItemWithQuantity;
+
 
 public class LoreTileEntity extends BlockEntity {
 
@@ -78,6 +79,7 @@ public class LoreTileEntity extends BlockEntity {
             }
         }
     }
+
 
     @Nullable
     public LoreProgram getCurrentLoreProgram() {

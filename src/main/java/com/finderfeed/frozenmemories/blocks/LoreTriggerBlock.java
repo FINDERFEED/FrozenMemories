@@ -42,7 +42,7 @@ public class LoreTriggerBlock extends Block {
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (world instanceof ServerLevel serverWorld && entity instanceof Player pl && !pl.isCreative()){
-            LevelChunk[] chunks = Helpers.getSurroundingChunks(serverWorld,pos);
+            List<LevelChunk> chunks = Helpers.getChunksInRadius(serverWorld,pos,3);
             for (LevelChunk chunk : chunks) {
                 for (BlockEntity e : chunk.getBlockEntities().values()) {
                     if (e instanceof LoreTileEntity tile) {
@@ -51,7 +51,6 @@ public class LoreTriggerBlock extends Block {
                             if (program.isStageRunning()) {
                                 serverWorld.setBlock(pos,state.setValue(PASSABLE,false),3);
                             } else {
-                                //delete this blocks around
                                 deleteStatesAround(serverWorld, pos);
                                 program.nextStage();
                                 List<BlockPos> posList = new ArrayList<>();

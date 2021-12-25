@@ -2,6 +2,7 @@ package com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.Objective;
+import com.finderfeed.frozenmemories.misc.ItemWithQuantity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
@@ -23,7 +24,7 @@ public class PlayerInventoryCheck extends Objective {
         for (ItemWithQuantity item : items){
 
             if (pl != null){
-                if (pl.getInventory().countItem(item.item) < item.getQuantity()){
+                if (pl.getInventory().countItem(item.getItem()) < item.getQuantity()){
                     return false;
                 }
             }else{
@@ -34,27 +35,5 @@ public class PlayerInventoryCheck extends Objective {
         return true;
     }
 
-    public static class ItemWithQuantity{
 
-        private Item item;
-        private int quantity;
-
-
-        private ItemWithQuantity(int count,Item item){
-            this.item = item;
-            this.quantity = count;
-        }
-
-        public static ItemWithQuantity of(Item item,int count){
-            return new ItemWithQuantity(count,item);
-        }
-
-        public Item getItem() {
-            return item;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-    }
 }

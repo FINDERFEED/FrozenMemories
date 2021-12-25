@@ -5,11 +5,15 @@ import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.blocks.tileentities.renderers.MemoryTowerRenderer;
 import com.finderfeed.frozenmemories.blocks.tileentities.renderers.models.MemoryTowerModel;
+import com.finderfeed.frozenmemories.entities.FrozenZombieMeteorite;
+import com.finderfeed.frozenmemories.entities.models.MeteoriteModel;
 import com.finderfeed.frozenmemories.entities.renderers.FrostedZombieRenderer;
+import com.finderfeed.frozenmemories.entities.renderers.FrozenMeteoriteRenderer;
 import com.finderfeed.frozenmemories.items.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.EntitiesRegistry;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -25,14 +29,17 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public class ClientModEventHandler {
 
 
+
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event){
         event.registerLayerDefinition(MemoryTowerModel.LAYER_LOCATION, MemoryTowerModel::createBodyLayer);
+        event.registerLayerDefinition(MeteoriteModel.LOCATION,MeteoriteModel::createLayer);
     }
 
     @SubscribeEvent
     public static void registerEntityRendering(EntityRenderersEvent.RegisterRenderers event){
         event.registerEntityRenderer(EntitiesRegistry.FROSTED_ZOMBIE.get(), FrostedZombieRenderer::new);
+        event.registerEntityRenderer(EntitiesRegistry.FROZEN_ZOMBIE_METEORITE.get(), FrozenMeteoriteRenderer::new);
     }
 
 
