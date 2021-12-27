@@ -2,15 +2,13 @@ package com.finderfeed.frozenmemories.client;
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.helpers.ClientHelpers;
-import com.finderfeed.frozenmemories.items.FrozenMemoriesItem;
+import com.finderfeed.frozenmemories.items.FrozenItem;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -27,7 +25,7 @@ public class FrozenMemoriesItemSpecialRenderer extends BlockEntityWithoutLevelRe
 
     @Override
     public void renderByItem(ItemStack item, ItemTransforms.TransformType transform, PoseStack matrices, MultiBufferSource buffer, int light, int overlay) {
-        if (item.getItem() instanceof FrozenMemoriesItem fitem){
+        if (item.getItem() instanceof FrozenItem fitem){
             int level = fitem.getNeededPlayerLevel();
             Player pl = Minecraft.getInstance().player;
             if (pl != null) {

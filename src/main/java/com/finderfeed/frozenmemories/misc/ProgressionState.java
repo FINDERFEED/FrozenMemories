@@ -13,9 +13,24 @@ public enum ProgressionState {
     STAGE_0(Offset.of(5,2,10),
             blocks(Blocks.IRON_ORE.defaultBlockState()),
             items(ItemWithQuantity.of(Items.IRON_PICKAXE,1),ItemWithQuantity.of(Items.COOKED_BEEF,16))
-    );
+    ),
+    STAGE_1(Offset.of(8,18,12),
+            blocks(),
+            items(ItemWithQuantity.of(Items.IRON_PICKAXE,1),ItemWithQuantity.of(Items.COOKED_BEEF,16),ItemWithQuantity.of(Items.IRON_INGOT,5))),
+    STAGE_2(Offset.of(10,18,1),
+            blocks(),
+            items(ItemWithQuantity.of(Items.IRON_PICKAXE,1),ItemWithQuantity.of(Items.COOKED_BEEF,16),ItemWithQuantity.of(Items.IRON_INGOT,5)))
+    ;
 
 
+    public static final int ZERO = 0;
+    public static final int ONE = 1;
+    public static final int TWO = 2;
+    public static final int THREE = 3;
+    public static final int FOUR = 4;
+    public static final int FIVE = 5;
+    public static final int SIX = 6;
+    public static final int SEVEN = 7;
 
     public static final Map<Integer,ProgressionState> STATES = Map.of(
             0,STAGE_0

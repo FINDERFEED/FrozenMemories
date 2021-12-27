@@ -5,6 +5,7 @@ import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTi
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.helpers.Helpers;
+import com.finderfeed.frozenmemories.misc.ProgressionState;
 import com.finderfeed.frozenmemories.misc.ServerWorldTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -34,16 +35,16 @@ public class HelperWand extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-//        if (world.isClientSide && hand == InteractionHand.MAIN_HAND){
-//            int lvl = PlayerProgressionStage.getPlayerProgressionStage(player);
-//            if (lvl == 0){
-//                PlayerProgressionStage.setPlayerProgressionStage(player,1);
-//                System.out.println("set to 1");
-//            }else{
-//                PlayerProgressionStage.setPlayerProgressionStage(player,0);
-//                System.out.println("set to 0");
-//            }
-//        }
+        if (world.isClientSide && hand == InteractionHand.MAIN_HAND){
+            int lvl = PlayerProgressionStage.getPlayerProgressionStage(player);
+            if (lvl <= 7){
+                PlayerProgressionStage.setPlayerProgressionStage(player, lvl+1);
+                System.out.println("set to "+ lvl);
+            }else{
+                PlayerProgressionStage.setPlayerProgressionStage(player,ProgressionState.ZERO);
+                System.out.println("set to 0");
+            }
+        }
 //        if (world instanceof ServerLevel serverLevel){
 //            System.out.println(serverLevel.getStructureManager().get(new ResourceLocation(FrozenMemories.MOD_ID,"stage_structures/stage_0")));
 //        }

@@ -4,33 +4,44 @@ package com.finderfeed.frozenmemories.events;
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.helpers.Helpers;
+import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.misc.MemoryTeleporter;
 import com.finderfeed.frozenmemories.misc.ProgressionState;
 import com.finderfeed.frozenmemories.misc.ServerWorldTask;
+import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,6 +92,42 @@ public class ForgeEventHandler {
         }
     }
 
+
+    @SubscribeEvent
+    public static void cancelItemUse(PlayerInteractEvent.RightClickItem event){
+        Item item = event.getItemStack().getItem();
+        Player player = event.getPlayer();
+        if (!player.level.isClientSide && item instanceof FrozenMemoriesItem frozenMemoriesItem){
+            if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void cancelBlockPlace(BlockEvent.EntityPlaceEvent event){
+        Item item = event.getPlacedBlock().getBlock().asItem();
+        Entity e = event.getEntity();
+        if ((e != null) && (!e.level.isClientSide) && (item instanceof FrozenMemoriesItem frozenMemoriesItem) && (e instanceof Player player) ){
+            if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void cancelEntityHit(LivingHurtEvent event){
+        if ((event.getSource() != null) && (event.getSource().getEntity() instanceof Player player) && (!player.level.isClientSide) ){
+            Item item = player.getMainHandItem().getItem();
+            if (item instanceof FrozenMemoriesItem frozenMemoriesItem){
+                if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+
     @SubscribeEvent
     public static void cancelDeathInMemory(LivingDeathEvent event){
         Level world = event.getEntityLiving().getLevel();
@@ -127,5 +174,65 @@ public class ForgeEventHandler {
     }
 
 
+    public static final AABB SEARCH_AABB = new AABB(-10,-10,-10,10,10,10);
+    public static final String TIME_TAG = FrozenMemories.MOD_ID + "_time_transforming";
+    public static final int TRANSFORMING_TIME_SECONDS = 20;
 
+    @SubscribeEvent
+    public static void transformNearbyItems(TickEvent.PlayerTickEvent event){
+        if (event.phase == TickEvent.Phase.START){
+            Player pl = event.player;
+            if (pl instanceof ServerPlayer player){
+                Level world = player.level;
+                if (world.getGameTime() % 20 == 0){
+                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.IRON_INGOT))
+                            .forEach((itemEntity)->{
+                                if (hasIceAround(itemEntity)) {
+                                    CompoundTag tag = itemEntity.getPersistentData();
+                                    int time = tag.getInt(TIME_TAG);
+                                    if (time <= TRANSFORMING_TIME_SECONDS) {
+                                        tag.putInt(TIME_TAG, time + 1);
+                                    } else {
+                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_IRON_INGOT.get(), itemEntity.getItem().getCount()));
+                                    }
+                                }
+                            });
+                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.DIAMOND))
+                            .forEach((itemEntity)->{
+                                if (hasIceAround(itemEntity)) {
+                                    CompoundTag tag = itemEntity.getPersistentData();
+                                    int time = tag.getInt(TIME_TAG);
+                                    if (time <= TRANSFORMING_TIME_SECONDS) {
+                                        tag.putInt(TIME_TAG, time + 1);
+                                    } else {
+                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_DIAMOND.get(), itemEntity.getItem().getCount()));
+                                    }
+                                }
+                            });
+                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.NETHERITE_INGOT))
+                            .forEach((itemEntity)->{
+                                if (hasIceAround(itemEntity)) {
+                                    CompoundTag tag = itemEntity.getPersistentData();
+                                    int time = tag.getInt(TIME_TAG);
+                                    if (time <= TRANSFORMING_TIME_SECONDS) {
+                                        tag.putInt(TIME_TAG, time + 1);
+                                    } else {
+                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_NETHERITE.get(), itemEntity.getItem().getCount()));
+                                    }
+                                }
+                            });
+                }
+            }
+        }
+    }
+    private static boolean hasIceAround(ItemEntity itemEntity){
+        Level world = itemEntity.level;
+        BlockPos pos = itemEntity.getOnPos();
+        return  world.getBlockState(pos).is(Blocks.WATER) &&
+                world.getBlockState(pos.below()).is(Blocks.ICE) &&
+                world.getBlockState(pos.north()).is(Blocks.ICE) &&
+                world.getBlockState(pos.west()).is(Blocks.ICE) &&
+                world.getBlockState(pos.south()).is(Blocks.ICE) &&
+                world.getBlockState(pos.east()).is(Blocks.ICE);
+    }
 }

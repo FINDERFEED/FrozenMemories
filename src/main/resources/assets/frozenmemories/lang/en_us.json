@@ -3,5 +3,35 @@
   "item.frozenmemories.unknown_item": "-Unknown item-",
   "entity.frozenmemories.frozen_zombie": "Frozen Zombie",
   "item.frozenmemories.building_wand": "Build Helper wand",
-  "block.frozenmemories.frozen_zombie_trap": "Zombie trap"
+  "block.frozenmemories.frozen_zombie_trap": "Zombie trap",
+  "item.frozenmemories.frozen_iron_ingot": "Frozen iron ingot",
+  "item.frozenmemories.frozen_netherite_ingot": "Frozen netherite ingot",
+  "item.frozenmemories.frozen_diamond": "Frozen diamond",
+  "item.frozenmemories.frozen_iron_sword": "Frozen iron sword",
+  "item.frozenmemories.frozen_diamond_sword": "Frozen diamond sword",
+  "item.frozenmemories.frozen_netherite_sword": "Frozen netherite sword",
+  "item.frozenmemories.frozen_iron_helmet": "Frozen iron helmet",
+  "item.frozenmemories.frozen_iron_chesplate": "Frozen iron chesplate",
+  "item.frozenmemories.frozen_iron_leggings": "Frozen iron leggings",
+  "item.frozenmemories.frozen_iron_boots": "Frozen iron boots",
+  "item.frozenmemories.frozen_diamond_helmet": "Frozen diamond helmet",
+  "item.frozenmemories.frozen_diamond_chesplate": "Frozen diamond chesplate",
+  "item.frozenmemories.frozen_diamond_leggings": "Frozen diamond leggings",
+  "item.frozenmemories.frozen_diamond_boots": "Frozen diamond boots",
+  "item.frozenmemories.frozen_netherite_helmet": "Frozen netherite helmet",
+  "item.frozenmemories.frozen_netherite_chesplate": "Frozen netherite chesplate",
+  "item.frozenmemories.frozen_netherite_leggings": "Frozen netherite leggings",
+  "item.frozenmemories.frozen_netherite_boots": "Frozen netherite boots"
+
+
+
+
+
+
+
+
+
+
+
+
 }

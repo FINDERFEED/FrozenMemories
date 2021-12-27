@@ -5,16 +5,14 @@ import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.blocks.tileentities.renderers.MemoryTowerRenderer;
 import com.finderfeed.frozenmemories.blocks.tileentities.renderers.models.MemoryTowerModel;
-import com.finderfeed.frozenmemories.entities.FrozenZombieMeteorite;
 import com.finderfeed.frozenmemories.entities.models.MeteoriteModel;
 import com.finderfeed.frozenmemories.entities.renderers.FrostedZombieRenderer;
 import com.finderfeed.frozenmemories.entities.renderers.FrozenMeteoriteRenderer;
-import com.finderfeed.frozenmemories.items.FrozenMemoriesItem;
+import com.finderfeed.frozenmemories.items.FrozenItem;
+import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.EntitiesRegistry;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -46,7 +44,7 @@ public class ClientModEventHandler {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event){
         event.enqueueWork(()->{
-            registerDefaultUnknownItemProperty(ItemsRegistry.TEST_ITEM.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_INGOT.get());
 
             BlockEntityRenderers.register(TileEntitiesRegistry.MEMORY_TOWER.get(), MemoryTowerRenderer::new);
         });
@@ -54,7 +52,7 @@ public class ClientModEventHandler {
 
 
     public static void registerDefaultUnknownItemProperty(FrozenMemoriesItem item){
-        ItemProperties.register(item,new ResourceLocation(FrozenMemories.MOD_ID,"unlocked"),
+        ItemProperties.register(item.getFrozenItem(),new ResourceLocation(FrozenMemories.MOD_ID,"unlocked"),
                 (stack,level,player,d)->{
                     int reqLvl = item.getNeededPlayerLevel();
                     if (player instanceof Player pl) {
