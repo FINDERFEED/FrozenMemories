@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public class FrozenItem extends Item implements FrozenMemoriesItem {
 
-    private final int playerLevel;
+    protected final int playerLevel;
 
     public FrozenItem(Properties p_41383_, int playerlevel) {
         super(p_41383_);
@@ -37,6 +37,7 @@ public class FrozenItem extends Item implements FrozenMemoriesItem {
     @Override
     public Component getName(ItemStack p_41458_) {
         if (EffectiveSide.get().isClient()){
+
             return ClientHelpers.getNameBasedOnNeededLevel(this);
         }
         return super.getName(p_41458_);

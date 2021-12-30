@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.helpers;
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.items.FrozenItem;
 import com.finderfeed.frozenmemories.items.FrozenMemoriesSword;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
@@ -30,6 +31,9 @@ public class ClientHelpers {
     public static Component getNameBasedOnNeededLevel(FrozenMemoriesItem item){
         if (clientPlayer() != null) {
             int playerLvl = PlayerProgressionStage.getPlayerProgressionStage(clientPlayer());
+            if (clientPlayer().level.dimension() == ForgeEventHandler.MEMORY){
+                return new TranslatableComponent(item.getFrozenItem().getDescriptionId());
+            }
             if (playerLvl >= item.getNeededPlayerLevel()) {
                 return new TranslatableComponent(item.getFrozenItem().getDescriptionId());
             } else {

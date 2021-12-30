@@ -1,14 +1,20 @@
 package com.finderfeed.frozenmemories.helpers;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
+import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
+import com.finderfeed.frozenmemories.packet_handler.packets.ClientboundUpdatePlayerStatePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.NetworkDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,4 +67,13 @@ public class Helpers {
         return RANDOM.nextInt(2) == 0 ? 1 : -1;
     }
 
+
+    public static void updatePlayerStageOnClient(Player player){
+        if (player instanceof ServerPlayer serverPlayer){
+            int stage = PlayerProgressionStage.getPlayerProgressionStage(player);
+            PacketHandler.INSTANCE.sendTo(new ClientboundUpdatePlayerStatePacket(stage),serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        }else{
+            throw new RuntimeException("Not a server player");
+        }
+    }
 }

@@ -41,7 +41,7 @@ public class LoreTriggerBlock extends Block {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (world instanceof ServerLevel serverWorld && entity instanceof Player pl && !pl.isCreative()){
+        if (world instanceof ServerLevel serverWorld && entity instanceof Player pl && !pl.isCreative() && !pl.isSpectator()){
             List<LevelChunk> chunks = Helpers.getChunksInRadius(serverWorld,pos,3);
             for (LevelChunk chunk : chunks) {
                 for (BlockEntity e : chunk.getBlockEntities().values()) {

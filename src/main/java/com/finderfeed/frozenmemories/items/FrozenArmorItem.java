@@ -1,8 +1,11 @@
 package com.finderfeed.frozenmemories.items;
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.helpers.ClientHelpers;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
+import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
+import com.finderfeed.frozenmemories.packet_handler.packets.RequestPlayerStageUpdate;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,8 +29,10 @@ public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
 
-        if (entity instanceof Player player && !player.level.isClientSide){
-            if (PlayerProgressionStage.getPlayerProgressionStage(player) < getNeededPlayerLevel()){
+        if (entity instanceof Player player ){
+
+            PacketHandler.INSTANCE.sendToServer(new RequestPlayerStageUpdate());
+            if (PlayerProgressionStage.getPlayerProgressionStage(player) < getNeededPlayerLevel() && (player.level.dimension() != ForgeEventHandler.MEMORY)){
                 return false;
             }
         }

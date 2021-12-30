@@ -44,6 +44,9 @@ public class ClientForgeEventHandler {
     @SubscribeEvent
     public static void renderObjectives(RenderGameOverlayEvent.Pre event){
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT){
+            if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.dimension() != ForgeEventHandler.MEMORY){
+                ALL_OBJECTIVES.clear();
+            }
             int width = event.getWindow().getGuiScaledWidth();
             int height = event.getWindow().getGuiScaledHeight();
             PoseStack matrices = event.getMatrixStack();
@@ -103,7 +106,7 @@ public class ClientForgeEventHandler {
             for (BlockEntity e : chunk.getBlockEntities().values()){
                 if (e instanceof LoreTileEntity tile){
                     int state = tile.getPlayerProgressionState();
-                    LoreProgram prog = ((state > -1) && (state < tile.getPrograms().length)) ? tile.getPrograms()[state] : null;
+                    LoreProgram prog = ((state > -1) && (state-1 < tile.getPrograms().length)) ? tile.getPrograms()[state-1] : null;
                     if (prog != null){
                         int currentStage = prog.getCurrentStage();
                         if (currentStage != -1){

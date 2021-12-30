@@ -28,16 +28,19 @@ public class FrozenZombieMeteorite extends AbstractHurtingProjectile {
     public FrozenZombieMeteorite(EntityType<? extends AbstractHurtingProjectile> p_37248_, Level p_37249_) {
         super(p_37248_, p_37249_);
         this.commands = null;
-        this.setDeltaMovement(0,-0.25,0);
+
     }
 
     public FrozenZombieMeteorite(Level p_37249_,Consumer<FrostedZombie> commands) {
         super(EntitiesRegistry.FROZEN_ZOMBIE_METEORITE.get(), p_37249_);
         this.commands = commands;
-        this.setDeltaMovement(0,-0.25,0);
+
 
     }
-
+    public FrozenZombieMeteorite(Level p_37249_) {
+        super(EntitiesRegistry.FROZEN_ZOMBIE_METEORITE.get(), p_37249_);
+        this.commands = null;
+    }
 
 
     @Override
@@ -64,7 +67,7 @@ public class FrozenZombieMeteorite extends AbstractHurtingProjectile {
 
     public void spawnZombies(BlockPos hitpos){
         level.explode(null,position().x,position().y,position().z,1, Explosion.BlockInteraction.NONE);
-        int count = level.random.nextInt(6);
+        int count = level.random.nextInt(3)+1;
         for (int i = 0; i < count;i++){
             BlockPos pos = hitpos.above(1).offset(level.random.nextInt(4),0,level.random.nextInt(4));
             FrostedZombie zombie = new FrostedZombie(EntitiesRegistry.FROSTED_ZOMBIE.get(),level);

@@ -4,6 +4,7 @@ import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTi
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.helpers.Helpers;
+import com.finderfeed.frozenmemories.misc.ItemWithQuantity;
 import com.finderfeed.frozenmemories.misc.MemoryTeleporter;
 import com.finderfeed.frozenmemories.misc.ProgressionState;
 import com.finderfeed.frozenmemories.misc.ServerWorldTask;
@@ -18,6 +19,7 @@ import net.minecraft.server.level.TicketType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -48,13 +50,17 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
                 if (world.getServer() != null){
                     ServerLevel destination = world.getServer().getLevel(ForgeEventHandler.MEMORY);
                     if (destination != null){
-                        StructureTemplate template = Helpers.getStageStructureTemplate(level,stage);
+                        StructureTemplate template = Helpers.getStageStructureTemplate(level,stage+1);
                         saveInventoryAndPos(player);
 
                         destination.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(randomPos), 3,randomPos);
                         StructurePlaceSettings set = new StructurePlaceSettings().addProcessor(BlockIgnoreProcessor.AIR).setRandom(destination.random).setRotation(Rotation.NONE).setBoundingBox(BoundingBox.infinite());
                         player.changeDimension(destination, teleporter);
-                        BlockPos position = ProgressionState.STATES.get(stage).getOffset().apply(randomPos);
+                        ProgressionState p = ProgressionState.STATES.get(stage);
+                        BlockPos position = p.getOffset().apply(randomPos);
+                        for (ItemWithQuantity i : p.getItems()){
+                            player.getInventory().add(new ItemStack(i.getItem(),i.getQuantity()));
+                        }
                         setBoxAround(destination,position);
 
                         ForgeEventHandler.addServerTask(new ServerWorldTask(60,ForgeEventHandler.MEMORY,()->{
@@ -63,7 +69,7 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
                             template.filterBlocks(randomPos,set,BlocksRegistry.LORE_TILE_BLOCK.get()).forEach((info)->{
                                 BlockEntity tile = destination.getBlockEntity(info.pos);
                                 if (tile instanceof LoreTileEntity tileEntity){
-                                    tileEntity.setPlayerProgressionState(stage);
+                                    tileEntity.setPlayerProgressionState(stage+1);
                                 }
                             });
                         }));

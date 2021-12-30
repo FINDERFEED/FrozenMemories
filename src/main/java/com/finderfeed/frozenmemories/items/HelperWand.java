@@ -35,11 +35,11 @@ public class HelperWand extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if (world.isClientSide && hand == InteractionHand.MAIN_HAND){
+        if (!world.isClientSide && hand == InteractionHand.MAIN_HAND){
             int lvl = PlayerProgressionStage.getPlayerProgressionStage(player);
             if (lvl <= 7){
                 PlayerProgressionStage.setPlayerProgressionStage(player, lvl+1);
-                System.out.println("set to "+ lvl);
+                System.out.println("set to "+ (lvl+1) );
             }else{
                 PlayerProgressionStage.setPlayerProgressionStage(player,ProgressionState.ZERO);
                 System.out.println("set to 0");

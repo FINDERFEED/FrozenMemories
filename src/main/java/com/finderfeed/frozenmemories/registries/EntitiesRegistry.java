@@ -15,7 +15,7 @@ public class EntitiesRegistry {
     public static final DeferredRegister<EntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, FrozenMemories.MOD_ID);
 
     public static final RegistryObject<EntityType<FrostedZombie>> FROSTED_ZOMBIE = DEFERRED_REGISTER.register("frozen_zombie",()->
-            EntityType.Builder.<FrostedZombie>of(FrostedZombie::new, MobCategory.AMBIENT).sized(1,2).build("frozen_zombie"));
+            EntityType.Builder.<FrostedZombie>of(FrostedZombie::new, MobCategory.AMBIENT).sized(0.6F, 1.95F).clientTrackingRange(8).build("frozen_zombie"));
 
     public static final RegistryObject<EntityType<FrozenZombieMeteorite>> FROZEN_ZOMBIE_METEORITE = DEFERRED_REGISTER.register("frozen_zombie_meteorite",()->
             EntityType.Builder.<FrozenZombieMeteorite>of(FrozenZombieMeteorite::new, MobCategory.MISC).sized(3,3).build("frozen_zombie_meteorite"));

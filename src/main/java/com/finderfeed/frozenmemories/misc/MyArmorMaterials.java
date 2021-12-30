@@ -1,5 +1,6 @@
 package com.finderfeed.frozenmemories.misc;
 
+import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -12,14 +13,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum MyArmorMaterials implements ArmorMaterial{
-    IRON("frozen_iron", 16, new int[]{3, 5, 6, 3}, 10, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
+    SKATES(FrozenMemories.MOD_ID+":skates", 10, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+        return Ingredient.of(Items.LEATHER);
+    }),
+    IRON(FrozenMemories.MOD_ID+":frozen_iron", 16, new int[]{3, 5, 6, 3}, 10, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
         return Ingredient.of(ItemsRegistry.FROZEN_IRON_INGOT.get());
     }),
-    DIAMOND("frozen_diamond", 34, new int[]{4, 6, 8, 4}, 11, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> {
-        return Ingredient.of(Items.DIAMOND);
+    DIAMOND(FrozenMemories.MOD_ID+":frozen_diamond", 34, new int[]{4, 6, 8, 4}, 11, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> {
+        return Ingredient.of(ItemsRegistry.FROZEN_DIAMOND.get());
     }),
-    NETHERITE("frozen_netherite", 38, new int[]{4, 7, 9, 4}, 20, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.2F, () -> {
-        return Ingredient.of(Items.NETHERITE_INGOT);
+    NETHERITE(FrozenMemories.MOD_ID+":frozen_netherite", 38, new int[]{4, 7, 9, 4}, 20, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.2F, () -> {
+        return Ingredient.of(ItemsRegistry.FROZEN_NETHERITE.get());
     });
 
 

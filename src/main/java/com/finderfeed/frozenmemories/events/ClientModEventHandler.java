@@ -45,7 +45,25 @@ public class ClientModEventHandler {
     public static void clientSetup(FMLClientSetupEvent event){
         event.enqueueWork(()->{
             registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_INGOT.get());
-
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_SWORD.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_SWORD.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_SWORD.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_HELMET.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_CHESTPLATE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_BOOTS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_LEGGINGS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_HELMET.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_CHESTPLATE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_BOOTS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_LEGGINGS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_HELMET.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_CHESTPLATE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_BOOTS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_LEGGINGS.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.HOT_CHOCOLATE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.SKATES.get());
             BlockEntityRenderers.register(TileEntitiesRegistry.MEMORY_TOWER.get(), MemoryTowerRenderer::new);
         });
     }
@@ -56,6 +74,9 @@ public class ClientModEventHandler {
                 (stack,level,player,d)->{
                     int reqLvl = item.getNeededPlayerLevel();
                     if (player instanceof Player pl) {
+                        if (pl.level.dimension() == ForgeEventHandler.MEMORY){
+                            return 0;
+                        }
                         int playerLvl = PlayerProgressionStage.getPlayerProgressionStage(pl);
                         return playerLvl >= reqLvl ? 0 : 1;
                     }else{

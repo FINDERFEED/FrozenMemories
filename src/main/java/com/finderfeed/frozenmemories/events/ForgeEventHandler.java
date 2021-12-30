@@ -97,7 +97,7 @@ public class ForgeEventHandler {
     public static void cancelItemUse(PlayerInteractEvent.RightClickItem event){
         Item item = event.getItemStack().getItem();
         Player player = event.getPlayer();
-        if (!player.level.isClientSide && item instanceof FrozenMemoriesItem frozenMemoriesItem){
+        if (!player.level.isClientSide && item instanceof FrozenMemoriesItem frozenMemoriesItem && notMemory(player.level)){
             if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
                 event.setCanceled(true);
             }
@@ -108,7 +108,7 @@ public class ForgeEventHandler {
     public static void cancelBlockPlace(BlockEvent.EntityPlaceEvent event){
         Item item = event.getPlacedBlock().getBlock().asItem();
         Entity e = event.getEntity();
-        if ((e != null) && (!e.level.isClientSide) && (item instanceof FrozenMemoriesItem frozenMemoriesItem) && (e instanceof Player player) ){
+        if ((e != null) && (!e.level.isClientSide) && (item instanceof FrozenMemoriesItem frozenMemoriesItem) && (e instanceof Player player) && notMemory(player.level)){
             if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
                 event.setCanceled(true);
             }
@@ -117,7 +117,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void cancelEntityHit(LivingHurtEvent event){
-        if ((event.getSource() != null) && (event.getSource().getEntity() instanceof Player player) && (!player.level.isClientSide) ){
+        if ((event.getSource() != null) && (event.getSource().getEntity() instanceof Player player) && (!player.level.isClientSide) && notMemory(player.level)){
             Item item = player.getMainHandItem().getItem();
             if (item instanceof FrozenMemoriesItem frozenMemoriesItem){
                 if (PlayerProgressionStage.getPlayerProgressionStage(player) < frozenMemoriesItem.getNeededPlayerLevel()){
@@ -125,6 +125,9 @@ public class ForgeEventHandler {
                 }
             }
         }
+    }
+    private static boolean notMemory(Level world){
+        return world.dimension() != MEMORY;
     }
 
 
@@ -184,6 +187,9 @@ public class ForgeEventHandler {
             Player pl = event.player;
             if (pl instanceof ServerPlayer player){
                 Level world = player.level;
+                if (world.getGameTime() % 40 == 0){
+                    Helpers.updatePlayerStageOnClient(player);
+                }
                 if (world.getGameTime() % 20 == 0){
                     world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.IRON_INGOT))
                             .forEach((itemEntity)->{

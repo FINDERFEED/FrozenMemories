@@ -14,7 +14,7 @@ import java.util.List;
 
 public class LoreProgramStage {
 
-    public static final int MESSAGE_SEND_TIME = 20;
+    public static final int MESSAGE_SEND_TIME = 40;
     private LoreTileEntity tileEntity;
     private List<String> MESSAGES;
     private List<Objective> OBJECTIVES;
@@ -49,6 +49,11 @@ public class LoreProgramStage {
                 }
 
             }else{
+                for (Objective objective : OBJECTIVES){
+                    if (objective instanceof TickableObjective t){
+                        t.tick();
+                    }
+                }
                 if (world.getGameTime() % 20 == 0){
                     BlockState state = world.getBlockState(tileEntity.getBlockPos());
                     tileEntity.setChanged();

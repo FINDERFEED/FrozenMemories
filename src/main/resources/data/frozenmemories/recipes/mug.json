@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F F",
+    "F F",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "frozenmemories:mug"
+
+  }
+}
