@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
@@ -37,31 +38,37 @@ public class ItemsRegistry {
 
     public static final RegistryObject<Item> PLACEHOLDER_UNKNOWN_ITEM = registerItem(new Item(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES)),"unknown_item");
     public static final RegistryObject<FrozenItem> FROZEN_IRON_INGOT = registerItem(new FrozenItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),ProgressionState.TWO),"frozen_iron_ingot");
+    public static final RegistryObject<FrozenItem> MAGIC_ICICLE = registerItem(new FrozenItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),ProgressionState.TWO){
+        @Override
+        public boolean isFoil(ItemStack stack) {
+            return true;
+        }
+    },"magic_icicle");
     public static final RegistryObject<FrozenItem> FROZEN_DIAMOND = registerItem(new FrozenItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES), ProgressionState.FOUR),"frozen_diamond");
-    public static final RegistryObject<FrozenItem> FROZEN_NETHERITE = registerItem(new FrozenItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),ProgressionState.SEVEN),"frozen_netherite");
+    public static final RegistryObject<FrozenItem> FROZEN_NETHERITE = registerItem(new FrozenItem(new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),ProgressionState.SIX),"frozen_netherite");
 
     public static final RegistryObject<FrozenArmorItem> FROZEN_IRON_HELMET = registerItem(new FrozenArmorItem(MyArmorMaterials.IRON, EquipmentSlot.HEAD,DEFAULT.get(),ProgressionState.THREE),"frozen_iron_helmet");
     public static final RegistryObject<FrozenArmorItem> FROZEN_IRON_CHESTPLATE = registerItem(new FrozenArmorItem(MyArmorMaterials.IRON, EquipmentSlot.CHEST,DEFAULT.get(),ProgressionState.THREE),"frozen_iron_chestplate");
     public static final RegistryObject<FrozenArmorItem> FROZEN_IRON_LEGGINGS = registerItem(new FrozenArmorItem(MyArmorMaterials.IRON, EquipmentSlot.LEGS,DEFAULT.get(),ProgressionState.THREE),"frozen_iron_leggings");
     public static final RegistryObject<FrozenArmorItem> FROZEN_IRON_BOOTS = registerItem(new FrozenArmorItem(MyArmorMaterials.IRON, EquipmentSlot.FEET,DEFAULT.get(),ProgressionState.THREE),"frozen_iron_boots");
 
-    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_HELMET = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.HEAD,DEFAULT.get(),ProgressionState.FOUR),"frozen_diamond_helmet");
-    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_CHESTPLATE = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.CHEST,DEFAULT.get(),ProgressionState.FOUR),"frozen_diamond_chestplate");
-    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_LEGGINGS = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.LEGS,DEFAULT.get(),ProgressionState.FOUR),"frozen_diamond_leggings");
-    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_BOOTS = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.FEET,DEFAULT.get(),ProgressionState.FOUR),"frozen_diamond_boots");
+    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_HELMET = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.HEAD,DEFAULT.get(),ProgressionState.FIVE),"frozen_diamond_helmet");
+    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_CHESTPLATE = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.CHEST,DEFAULT.get(),ProgressionState.FIVE),"frozen_diamond_chestplate");
+    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_LEGGINGS = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.LEGS,DEFAULT.get(),ProgressionState.FIVE),"frozen_diamond_leggings");
+    public static final RegistryObject<FrozenArmorItem> FROZEN_DIAMOND_BOOTS = registerItem(new FrozenArmorItem(MyArmorMaterials.DIAMOND, EquipmentSlot.FEET,DEFAULT.get(),ProgressionState.FIVE),"frozen_diamond_boots");
 
     public static final RegistryObject<FrozenArmorItem> FROZEN_NETHERITE_HELMET = registerItem(new FrozenArmorItem(MyArmorMaterials.NETHERITE, EquipmentSlot.HEAD,DEFAULT.get().fireResistant(),ProgressionState.SEVEN),"frozen_netherite_helmet");
     public static final RegistryObject<FrozenArmorItem> FROZEN_NETHERITE_CHESTPLATE = registerItem(new FrozenArmorItem(MyArmorMaterials.NETHERITE, EquipmentSlot.CHEST,DEFAULT.get().fireResistant(),ProgressionState.SEVEN),"frozen_netherite_chestplate");
     public static final RegistryObject<FrozenArmorItem> FROZEN_NETHERITE_LEGGINGS = registerItem(new FrozenArmorItem(MyArmorMaterials.NETHERITE, EquipmentSlot.LEGS,DEFAULT.get().fireResistant(),ProgressionState.SEVEN),"frozen_netherite_leggings");
     public static final RegistryObject<FrozenArmorItem> FROZEN_NETHERITE_BOOTS = registerItem(new FrozenArmorItem(MyArmorMaterials.NETHERITE, EquipmentSlot.FEET,DEFAULT.get().fireResistant(),ProgressionState.SEVEN),"frozen_netherite_boots");
 
-    public static final RegistryObject<FrozenArmorItem> SKATES = registerItem(new SkatesItem(MyArmorMaterials.SKATES, EquipmentSlot.FEET,DEFAULT.get().fireResistant(),ProgressionState.ONE),"skates");
+    public static final RegistryObject<FrozenArmorItem> SKATES = registerItem(new SkatesItem(MyArmorMaterials.SKATES, EquipmentSlot.FEET,DEFAULT.get().fireResistant(),ProgressionState.TWO),"skates");
 
 
 
     public static final RegistryObject<FrozenMemoriesSword> FROZEN_IRON_SWORD = registerItem(new FrozenMemoriesSword(Tiers.IRON,4, -2.4F,new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES), ProgressionState.TWO),"frozen_iron_sword");
     public static final RegistryObject<FrozenMemoriesSword> FROZEN_DIAMOND_SWORD = registerItem(new FrozenMemoriesSword(Tiers.DIAMOND,4, -2.4F,new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES),ProgressionState.FOUR),"frozen_diamond_sword");
-    public static final RegistryObject<FrozenMemoriesSword> FROZEN_NETHERITE_SWORD = registerItem(new FrozenMemoriesSword(Tiers.NETHERITE,4, -2.4F,new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES).fireResistant(),ProgressionState.SEVEN),"frozen_netherite_sword");
+    public static final RegistryObject<FrozenMemoriesSword> FROZEN_NETHERITE_SWORD = registerItem(new FrozenMemoriesSword(Tiers.NETHERITE,4, -2.4F,new Item.Properties().tab(FrozenMemories.FROZEN_MEMORIES).fireResistant(),ProgressionState.SIX),"frozen_netherite_sword");
 
 //    public static final RegistryObject<FrozenBlockItem> HOT_CHOCOLATE = registerItem(new HotChocolateItem(DEFAULT_STACKS_1.get().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.1F).effect(()->new MobEffectInstance(MobEffects.MOVEMENT_SPEED,1200,0),1).build())),"hot_chocolate");
 

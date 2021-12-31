@@ -24,7 +24,7 @@ public enum ProgressionState {
             blocks(),
             items(ItemWithQuantity.of(Items.IRON_PICKAXE,1),ItemWithQuantity.of(Items.COOKED_BEEF,16),
                     ItemWithQuantity.of(ItemsRegistry.FROZEN_IRON_INGOT.get(),5))),
-    STAGE_5(Offset.of(10,17,1),
+    STAGE_5(Offset.of(10,18,1),
     blocks(Blocks.COBBLESTONE.defaultBlockState()),
     items(ItemWithQuantity.of(Items.IRON_PICKAXE,1),ItemWithQuantity.of(Items.COOKED_BEEF,16),
                     ItemWithQuantity.of(ItemsRegistry.FROZEN_IRON_SWORD.get(),1))),

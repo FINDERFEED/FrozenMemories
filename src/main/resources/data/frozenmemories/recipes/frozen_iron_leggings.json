@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "F F",
+    "F F"
+  ],
+  "key": {
+    "F": {
+      "item": "frozenmemories:frozen_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "frozenmemories:frozen_iron_leggings"
+
+  }
+}

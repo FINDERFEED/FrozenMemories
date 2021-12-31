@@ -50,7 +50,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FrozenMemories.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
-
+    private static final AABB BLOCK_AABB = new AABB(0,0,0,1,1,1);
     public static final ResourceKey<Level> MEMORY = ResourceKey.create(Registry.DIMENSION_REGISTRY,new ResourceLocation(FrozenMemories.MOD_ID,"memory"));
     public static final ResourceKey<Biome> MEMORY_BIOME = ResourceKey.create(Registry.BIOME_REGISTRY,new ResourceLocation(FrozenMemories.MOD_ID,"memory"));
 
@@ -191,46 +191,120 @@ public class ForgeEventHandler {
                     Helpers.updatePlayerStageOnClient(player);
                 }
                 if (world.getGameTime() % 20 == 0){
-                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.IRON_INGOT))
+                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(t)->{
+                        Item i = t.getItem().getItem();
+                        return i == Items.IRON_INGOT || i == Items.DIAMOND || i == Items.NETHERITE_INGOT;
+                    })
                             .forEach((itemEntity)->{
-                                if (hasIceAround(itemEntity)) {
-                                    CompoundTag tag = itemEntity.getPersistentData();
-                                    int time = tag.getInt(TIME_TAG);
-                                    if (time <= TRANSFORMING_TIME_SECONDS) {
-                                        tag.putInt(TIME_TAG, time + 1);
-                                    } else {
-                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_IRON_INGOT.get(), itemEntity.getItem().getCount()));
+                                BlockPos pos = itemEntity.getOnPos();
+                                ItemStack item = itemEntity.getItem();
+                                List<ItemEntity> icicles = world.getEntitiesOfClass(ItemEntity.class,BLOCK_AABB.move(pos),(t)->t.getItem().is(ItemsRegistry.MAGIC_ICICLE.get()));
+                                if (!icicles.isEmpty()) {
+                                    int iciclesCount = 0;
+                                    for (ItemEntity i : icicles){
+                                        iciclesCount+=i.getItem().getCount();
+                                    }
+                                    if (item.is(Items.IRON_INGOT)) {
+                                        if (hasIceAround(itemEntity)) {
+                                            CompoundTag tag = itemEntity.getPersistentData();
+                                            int time = tag.getInt(TIME_TAG);
+                                            if (time <= TRANSFORMING_TIME_SECONDS) {
+                                                tag.putInt(TIME_TAG, time + 1);
+                                            } else {
+                                                int maxOutput = Math.min(itemEntity.getItem().getCount(),iciclesCount);
+                                                if (maxOutput != itemEntity.getItem().getCount()){
+                                                    ItemEntity frozenIron = new ItemEntity(itemEntity.level,pos.getX(),pos.getY(),pos.getZ(),new ItemStack(ItemsRegistry.FROZEN_IRON_INGOT.get(),maxOutput));
+                                                    itemEntity.getItem().shrink(maxOutput);
+                                                    itemEntity.level.addFreshEntity(frozenIron);
+                                                    icicles.forEach(Entity::discard);
+                                                }else{
+                                                    itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_IRON_INGOT.get(), maxOutput));
+                                                    int remainingToMinus = maxOutput;
+                                                    for (ItemEntity icicle : icicles){
+                                                        ItemStack stack = icicle.getItem();
+                                                        if (stack.getCount() >= remainingToMinus){
+                                                            stack.shrink(remainingToMinus);
+                                                        }else{
+                                                            remainingToMinus = remainingToMinus - stack.getCount();
+                                                            icicle.discard();
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+
+                                        }
+                                    } else if (item.is(Items.DIAMOND)) {
+                                        if (hasIceAround(itemEntity)) {
+                                            CompoundTag tag = itemEntity.getPersistentData();
+                                            int time = tag.getInt(TIME_TAG);
+                                            if (time <= TRANSFORMING_TIME_SECONDS) {
+                                                tag.putInt(TIME_TAG, time + 1);
+                                            } else {
+                                                int maxOutput = Math.min(itemEntity.getItem().getCount(),iciclesCount);
+                                                if (maxOutput != itemEntity.getItem().getCount()){
+                                                    ItemEntity frozenIron = new ItemEntity(itemEntity.level,pos.getX(),pos.getY(),pos.getZ(),new ItemStack(ItemsRegistry.FROZEN_DIAMOND.get(),maxOutput));
+                                                    itemEntity.getItem().shrink(maxOutput);
+                                                    itemEntity.level.addFreshEntity(frozenIron);
+                                                    icicles.forEach(Entity::discard);
+                                                }else{
+                                                    itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_DIAMOND.get(), maxOutput));
+                                                    int remainingToMinus = iciclesCount;
+                                                    for (ItemEntity icicle : icicles){
+                                                        ItemStack stack = icicle.getItem();
+                                                        if (stack.getCount() <= remainingToMinus){
+                                                            stack.shrink(remainingToMinus);
+                                                        }else{
+                                                            remainingToMinus = remainingToMinus - stack.getCount();
+                                                            icicle.discard();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (item.is(Items.NETHERITE_INGOT)) {
+                                        if (hasIceAround(itemEntity)) {
+                                            CompoundTag tag = itemEntity.getPersistentData();
+                                            int time = tag.getInt(TIME_TAG);
+                                            if (time <= TRANSFORMING_TIME_SECONDS) {
+                                                tag.putInt(TIME_TAG, time + 1);
+                                            } else {
+                                                int maxOutput = Math.min(itemEntity.getItem().getCount(),iciclesCount);
+                                                if (maxOutput != itemEntity.getItem().getCount()){
+                                                    ItemEntity frozenIron = new ItemEntity(itemEntity.level,pos.getX(),pos.getY(),pos.getZ(),new ItemStack(ItemsRegistry.FROZEN_NETHERITE.get(),maxOutput));
+                                                    itemEntity.getItem().shrink(maxOutput);
+                                                    itemEntity.level.addFreshEntity(frozenIron);
+                                                    icicles.forEach(Entity::discard);
+                                                }else{
+                                                    itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_NETHERITE.get(), maxOutput));
+                                                    int remainingToMinus = iciclesCount;
+                                                    for (ItemEntity icicle : icicles){
+                                                        ItemStack stack = icicle.getItem();
+                                                        if (stack.getCount() <= remainingToMinus){
+                                                            stack.shrink(remainingToMinus);
+                                                        }else{
+                                                            remainingToMinus = remainingToMinus - stack.getCount();
+                                                            icicle.discard();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             });
-                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.DIAMOND))
-                            .forEach((itemEntity)->{
-                                if (hasIceAround(itemEntity)) {
-                                    CompoundTag tag = itemEntity.getPersistentData();
-                                    int time = tag.getInt(TIME_TAG);
-                                    if (time <= TRANSFORMING_TIME_SECONDS) {
-                                        tag.putInt(TIME_TAG, time + 1);
-                                    } else {
-                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_DIAMOND.get(), itemEntity.getItem().getCount()));
-                                    }
-                                }
-                            });
-                    world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(entity)-> entity.getItem().is(Items.NETHERITE_INGOT))
-                            .forEach((itemEntity)->{
-                                if (hasIceAround(itemEntity)) {
-                                    CompoundTag tag = itemEntity.getPersistentData();
-                                    int time = tag.getInt(TIME_TAG);
-                                    if (time <= TRANSFORMING_TIME_SECONDS) {
-                                        tag.putInt(TIME_TAG, time + 1);
-                                    } else {
-                                        itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_NETHERITE.get(), itemEntity.getItem().getCount()));
-                                    }
-                                }
-                            });
+
                 }
             }
         }
     }
+
+
+
+
+
+
+
     private static boolean hasIceAround(ItemEntity itemEntity){
         Level world = itemEntity.level;
         BlockPos pos = itemEntity.getOnPos();
@@ -239,6 +313,6 @@ public class ForgeEventHandler {
                 world.getBlockState(pos.north()).is(Blocks.ICE) &&
                 world.getBlockState(pos.west()).is(Blocks.ICE) &&
                 world.getBlockState(pos.south()).is(Blocks.ICE) &&
-                world.getBlockState(pos.east()).is(Blocks.ICE);
+                world.getBlockState(pos.east()).is(Blocks.ICE) ;
     }
 }

@@ -41,7 +41,8 @@ public class LoreTileEntity extends BlockEntity {
     private LoreProgram STAGE_1 = LoreProgram.Builder.start("stage_1",this)
             .addStage(
                     LoreProgramStage.Builder.start("stage_11",this)
-                    .addMessages("[Jake(You)]That was a good day!","[Jake]But i need some iron to make a new sword.")
+                    .addMessages("[Jake(You)]That was a good day!","[Jake]But before going back home i need some iron to make a new sword.","[SYSTEM]After every objective is completed move forward.",
+                            "[SYSTEM]When ALL objectives will be completed you need to find and step into the special portal to return back.")
                             .addObjectives(new PlayerInventoryCheck("Harvest 5 iron.",this, ItemWithQuantity.of(Items.RAW_IRON,5)))
                     .build())
             .addStage(
@@ -105,7 +106,7 @@ public class LoreTileEntity extends BlockEntity {
                     .addMessages("[Wizard 1]We cant hold any longer!","[Wizard 2]Look! We are not alone now!","[Wizard 1]Please help us! Defend the tower while we are freezing our memories!",
                             "[Jake]I think i have no other choice","[Jake]The forests are flooded with zombies, there is no way out. Only death...","[Jake]At least we will never be forgotten.")
                     .addObjectives(new SurviveForTicksObjective("Survive for 3 minutes and don't let zombies destroy the tower","obj_81",this,3600))
-                    .addScheduledTask(LoreProgramStage.ScheduledTask.create(LoreProgramStage.ScheduledTask.Type.REPETITIVE,200,(tile)->{
+                    .addScheduledTask(LoreProgramStage.ScheduledTask.create(LoreProgramStage.ScheduledTask.Type.REPETITIVE,250,(tile)->{
                         Level world = tile.getLevel();
                         Offset[] offsets = {Offset.of(24,8,8),Offset.of(5,8,23),Offset.of(23,8,41),Offset.of(40,8,23)};
                         Vec3 meteoriteDestination = Helpers.blockCenter(offsets[world.random.nextInt(offsets.length)].apply(tile.getBlockPos()));
