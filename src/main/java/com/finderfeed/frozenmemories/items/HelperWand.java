@@ -41,7 +41,7 @@ public class HelperWand extends Item {
                 PlayerProgressionStage.setPlayerProgressionStage(player, lvl+1);
                 System.out.println("set to "+ (lvl+1) );
             }else{
-                PlayerProgressionStage.setPlayerProgressionStage(player,ProgressionState.ZERO);
+                PlayerProgressionStage.setPlayerProgressionStage(player,0);
                 System.out.println("set to 0");
             }
         }

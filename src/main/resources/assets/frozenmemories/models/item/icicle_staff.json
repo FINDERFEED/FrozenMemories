@@ -1,0 +1,14 @@
+{
+  "parent": "item/handheld",
+  "textures" : {
+    "layer0": "frozenmemories:items/icicle_staff"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "frozenmemories:unlocked": 1
+      },
+      "model": "frozenmemories:item/unknown_item"
+    }
+  ]
+}

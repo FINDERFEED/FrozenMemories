@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.items;
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -23,7 +24,7 @@ public class SkatesItem extends FrozenArmorItem{
         if (!world.isClientSide){
             if (world.getGameTime() % 10 == 0){
                 BlockState state = world.getBlockState(player.getOnPos());
-                if ((PlayerProgressionStage.getPlayerProgressionStage(player) >= getNeededPlayerLevel()) && state.is(Blocks.ICE) || state.is(Blocks.BLUE_ICE) || state.is(Blocks.PACKED_ICE) || state.is(Blocks.FROSTED_ICE)){
+                if ((PlayerProgressionStage.getPlayerProgressionStage(player) >= getNeededPlayerLevel() || player.level.dimension() == ForgeEventHandler.MEMORY) && state.is(Blocks.ICE) || state.is(Blocks.BLUE_ICE) || state.is(Blocks.PACKED_ICE) || state.is(Blocks.FROSTED_ICE)){
                     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,20,1));
                 }
             }

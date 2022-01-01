@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " KF",
+    " GK",
+    "K  "
+  ],
+  "key": {
+    "F": {
+      "item": "frozenmemories:magic_icicle"
+    },
+    "G": {
+      "item": "minecraft:stick"
+    },
+    "K": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "frozenmemories:icicle_staff"
+
+  }
+}

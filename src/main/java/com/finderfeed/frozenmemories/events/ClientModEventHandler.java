@@ -8,17 +8,20 @@ import com.finderfeed.frozenmemories.blocks.tileentities.renderers.models.Memory
 import com.finderfeed.frozenmemories.entities.models.MeteoriteModel;
 import com.finderfeed.frozenmemories.entities.renderers.FrostedZombieRenderer;
 import com.finderfeed.frozenmemories.entities.renderers.FrozenMeteoriteRenderer;
+import com.finderfeed.frozenmemories.entities.renderers.IcicleProjectileRenderer;
 import com.finderfeed.frozenmemories.items.FrozenItem;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.EntitiesRegistry;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.finderfeed.frozenmemories.registries.TileEntitiesRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -38,7 +41,11 @@ public class ClientModEventHandler {
     public static void registerEntityRendering(EntityRenderersEvent.RegisterRenderers event){
         event.registerEntityRenderer(EntitiesRegistry.FROSTED_ZOMBIE.get(), FrostedZombieRenderer::new);
         event.registerEntityRenderer(EntitiesRegistry.FROZEN_ZOMBIE_METEORITE.get(), FrozenMeteoriteRenderer::new);
+        event.registerEntityRenderer(EntitiesRegistry.ICICLE.get(), IcicleProjectileRenderer::new);
     }
+
+
+
 
 
     @SubscribeEvent
@@ -64,6 +71,9 @@ public class ClientModEventHandler {
             registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_LEGGINGS.get());
             registerDefaultUnknownItemProperty(ItemsRegistry.HOT_CHOCOLATE.get());
             registerDefaultUnknownItemProperty(ItemsRegistry.SKATES.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.MAGIC_ICICLE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.ICICLE_STAFF.get());
+
             BlockEntityRenderers.register(TileEntitiesRegistry.MEMORY_TOWER.get(), MemoryTowerRenderer::new);
         });
     }

@@ -3,6 +3,7 @@ package com.finderfeed.frozenmemories.registries;
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.entities.FrostedZombie;
 import com.finderfeed.frozenmemories.entities.FrozenZombieMeteorite;
+import com.finderfeed.frozenmemories.entities.IcicleProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,5 +21,6 @@ public class EntitiesRegistry {
     public static final RegistryObject<EntityType<FrozenZombieMeteorite>> FROZEN_ZOMBIE_METEORITE = DEFERRED_REGISTER.register("frozen_zombie_meteorite",()->
             EntityType.Builder.<FrozenZombieMeteorite>of(FrozenZombieMeteorite::new, MobCategory.MISC).sized(3,3).build("frozen_zombie_meteorite"));
 
-
+    public static final RegistryObject<EntityType<IcicleProjectile>> ICICLE = DEFERRED_REGISTER.register("icicle",()->
+            EntityType.Builder.<IcicleProjectile>of(IcicleProjectile::new, MobCategory.MISC).sized(0.25f,0.25f).build("icicle"));
 }

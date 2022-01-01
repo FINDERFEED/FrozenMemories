@@ -7,6 +7,7 @@ import com.finderfeed.frozenmemories.items.FrozenMemoriesSword;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -15,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 public class ClientHelpers {
 
@@ -24,7 +26,12 @@ public class ClientHelpers {
     }
 
 
-
+    public static void applyMovementMatrixRotations(PoseStack matrices, Vec3 vec){
+        double angleY = Math.toDegrees(Math.atan2(vec.x,vec.z));
+        double angleX = Math.toDegrees(Math.atan2(Math.sqrt(vec.x*vec.x + vec.z*vec.z),vec.y));
+        matrices.mulPose(Vector3f.YP.rotationDegrees((float)angleY));
+        matrices.mulPose(Vector3f.XP.rotationDegrees((float)angleX));
+    }
 
 
 

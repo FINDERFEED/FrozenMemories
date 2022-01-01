@@ -42,7 +42,8 @@ public class LoreTileEntity extends BlockEntity {
             .addStage(
                     LoreProgramStage.Builder.start("stage_11",this)
                     .addMessages("[Jake(You)]That was a good day!","[Jake]But before going back home i need some iron to make a new sword.","[SYSTEM]After every objective is completed move forward.",
-                            "[SYSTEM]When ALL objectives will be completed you need to find and step into the special portal to return back.")
+                            "[SYSTEM]When ALL objectives will be completed you need to find and step into the special portal to return back.",
+                            "[SYSTEM]If you think something went wrong use \"/fm error\" command to return back")
                             .addObjectives(new PlayerInventoryCheck("Harvest 5 iron.",this, ItemWithQuantity.of(Items.RAW_IRON,5)))
                     .build())
             .addStage(
@@ -65,8 +66,8 @@ public class LoreTileEntity extends BlockEntity {
                     .addObjectives(new PlayerInventoryCheck("Smelt the iron in public forge",this,ItemWithQuantity.of(Items.IRON_INGOT,5)))
                     .build())
             .addStage(LoreProgramStage.Builder.start("stage_32",this)
-                    .addMessages("[Jake]Time to turn it into frozen iron!")
-                    .addObjectives(new PlayerInventoryCheck("Go to the left side of the forge and throw iron into the water pool",this,ItemWithQuantity.of(ItemsRegistry.FROZEN_IRON_INGOT.get(),5)))
+                    .addMessages("[Jake]Time to turn it into frozen iron!","[Jake]I hope someone left some icicles inside the chest.")
+                    .addObjectives(new PlayerInventoryCheck("Go to the left side of the forge and throw iron and icicles into the water pool",this,ItemWithQuantity.of(ItemsRegistry.FROZEN_IRON_INGOT.get(),5)))
                     .build())
             .build();
     private LoreProgram STAGE_4 = LoreProgram.Builder.start("stage_4",this)

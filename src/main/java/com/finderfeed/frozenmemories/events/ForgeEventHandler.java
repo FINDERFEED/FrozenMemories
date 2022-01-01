@@ -2,12 +2,11 @@ package com.finderfeed.frozenmemories.events;
 
 
 import com.finderfeed.frozenmemories.FrozenMemories;
+import com.finderfeed.frozenmemories.blocks.MemoryCrack;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.helpers.Helpers;
-import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
-import com.finderfeed.frozenmemories.misc.MemoryTeleporter;
-import com.finderfeed.frozenmemories.misc.ProgressionState;
-import com.finderfeed.frozenmemories.misc.ServerWorldTask;
+import com.finderfeed.frozenmemories.items.FrozenArmorItem;
+import com.finderfeed.frozenmemories.misc.*;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -18,6 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,6 +33,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -141,11 +143,12 @@ public class ForgeEventHandler {
                 if (world.getServer() != null) {
                     ServerLevel overworld = world.getServer().getLevel(Level.OVERWORLD);
                     if (overworld != null) {
-                        BlockPos returnPos = Helpers.getBlockPos(Helpers.TAG_RETURN_BLOCKPOS, player.getPersistentData());
-                        player.getInventory().load(player.getPersistentData().getList(Helpers.TAG_INVENTORY,10));
-                        overworld.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(returnPos), 3,returnPos);
-                        MemoryTeleporter teleporter = new MemoryTeleporter(BlockPos.ZERO);
-                        player.changeDimension(overworld,teleporter);
+//                        BlockPos returnPos = Helpers.getBlockPos(Helpers.TAG_RETURN_BLOCKPOS, player.getPersistentData());
+//                        player.getInventory().load(player.getPersistentData().getList(Helpers.TAG_INVENTORY,10));
+//                        overworld.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(returnPos), 3,returnPos);
+//                        MemoryTeleporter teleporter = new MemoryTeleporter(BlockPos.ZERO);
+//                        player.changeDimension(overworld,teleporter);
+                        MemoryCrack.teleportPlayerBack((ServerPlayer) player,true);
                     }
                 }
                 event.setCanceled(true);
@@ -186,11 +189,28 @@ public class ForgeEventHandler {
         if (event.phase == TickEvent.Phase.START){
             Player pl = event.player;
             if (pl instanceof ServerPlayer player){
+
+
+
                 Level world = player.level;
                 if (world.getGameTime() % 40 == 0){
                     Helpers.updatePlayerStageOnClient(player);
+
                 }
                 if (world.getGameTime() % 20 == 0){
+                    Biome b = world.getBiome(player.getOnPos());
+                    if (b.getBiomeCategory() == Biome.BiomeCategory.ICY || b.getBiomeCategory() == Biome.BiomeCategory.TAIGA) {
+                        boolean addArmorSpeedEffect = true;
+                        for (ItemStack stack : player.getInventory().armor) {
+                            if (!(stack.getItem() instanceof FrozenArmorItem)) {
+                                addArmorSpeedEffect = false;
+                            }
+                        }
+                        if (addArmorSpeedEffect) {
+                            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 1));
+                        }
+                    }
+
                     world.getEntitiesOfClass(ItemEntity.class,SEARCH_AABB.move(player.position()),(t)->{
                         Item i = t.getItem().getItem();
                         return i == Items.IRON_INGOT || i == Items.DIAMOND || i == Items.NETHERITE_INGOT;
@@ -249,10 +269,10 @@ public class ForgeEventHandler {
                                                     icicles.forEach(Entity::discard);
                                                 }else{
                                                     itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_DIAMOND.get(), maxOutput));
-                                                    int remainingToMinus = iciclesCount;
+                                                    int remainingToMinus = maxOutput;
                                                     for (ItemEntity icicle : icicles){
                                                         ItemStack stack = icicle.getItem();
-                                                        if (stack.getCount() <= remainingToMinus){
+                                                        if (stack.getCount() >= remainingToMinus){
                                                             stack.shrink(remainingToMinus);
                                                         }else{
                                                             remainingToMinus = remainingToMinus - stack.getCount();
@@ -277,10 +297,10 @@ public class ForgeEventHandler {
                                                     icicles.forEach(Entity::discard);
                                                 }else{
                                                     itemEntity.setItem(new ItemStack(ItemsRegistry.FROZEN_NETHERITE.get(), maxOutput));
-                                                    int remainingToMinus = iciclesCount;
+                                                    int remainingToMinus = maxOutput;
                                                     for (ItemEntity icicle : icicles){
                                                         ItemStack stack = icicle.getItem();
-                                                        if (stack.getCount() <= remainingToMinus){
+                                                        if (stack.getCount() >= remainingToMinus){
                                                             stack.shrink(remainingToMinus);
                                                         }else{
                                                             remainingToMinus = remainingToMinus - stack.getCount();
@@ -314,5 +334,9 @@ public class ForgeEventHandler {
                 world.getBlockState(pos.west()).is(Blocks.ICE) &&
                 world.getBlockState(pos.south()).is(Blocks.ICE) &&
                 world.getBlockState(pos.east()).is(Blocks.ICE) ;
+    }
+    @SubscribeEvent
+    public static void registerCommands(final RegisterCommandsEvent event){
+        FMCommands.register(event.getDispatcher());
     }
 }

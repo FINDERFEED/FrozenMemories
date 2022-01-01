@@ -1,6 +1,7 @@
 package com.finderfeed.frozenmemories.items;
 
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
+import com.finderfeed.frozenmemories.misc.ProgressionState;
 import com.finderfeed.frozenmemories.registries.BlocksRegistry;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.block.Block;
 
 public class HotChocolateItem extends FrozenBlockItem  {
     public HotChocolateItem(Block block,Properties p_41383_) {
-        super(block,p_41383_,1);
+        super(block,p_41383_, ProgressionState.ONE);
     }
 
 

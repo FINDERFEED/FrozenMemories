@@ -6,15 +6,18 @@ import com.finderfeed.frozenmemories.helpers.ClientHelpers;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
 import com.finderfeed.frozenmemories.packet_handler.packets.RequestPlayerStageUpdate;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
 
@@ -32,6 +35,7 @@ public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
         if (entity instanceof Player player ){
 
             PacketHandler.INSTANCE.sendToServer(new RequestPlayerStageUpdate());
+
             if (PlayerProgressionStage.getPlayerProgressionStage(player) < getNeededPlayerLevel() && (player.level.dimension() != ForgeEventHandler.MEMORY)){
                 return false;
             }
@@ -56,5 +60,12 @@ public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
             return ClientHelpers.getNameBasedOnNeededLevel(this);
         }
         return super.getName(p_41458_);
+    }
+
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        components.add(new TextComponent("Speed II when in icy and taiga biomes (Full set is needed)").withStyle(ChatFormatting.AQUA));
+        super.appendHoverText(stack, level, components, flag);
     }
 }

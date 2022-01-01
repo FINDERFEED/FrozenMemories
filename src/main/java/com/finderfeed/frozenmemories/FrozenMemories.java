@@ -20,7 +20,7 @@ public class FrozenMemories
     public static final CreativeModeTab FROZEN_MEMORIES = new CreativeModeTab("frozen.memories") {
         @Override
         public ItemStack makeIcon() {
-            return Items.BOW.getDefaultInstance();
+            return ItemsRegistry.FROZEN_IRON_INGOT.get().getDefaultInstance();
         }
     };
 

@@ -4,6 +4,7 @@ import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
 import com.finderfeed.frozenmemories.packet_handler.packets.ClientboundUpdatePlayerStatePacket;
+import com.finderfeed.frozenmemories.registries.ParticlesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -71,9 +72,23 @@ public class Helpers {
     public static void updatePlayerStageOnClient(Player player){
         if (player instanceof ServerPlayer serverPlayer){
             int stage = PlayerProgressionStage.getPlayerProgressionStage(player);
+
             PacketHandler.INSTANCE.sendTo(new ClientboundUpdatePlayerStatePacket(stage),serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
         }else{
             throw new RuntimeException("Not a server player");
+        }
+    }
+
+    public static void createSnowflakeParticleExplosion(Level world,Vec3 position,int intensity,float speedFactor,float spawnDistanceFactor){
+        for (int x = -intensity; x < intensity+1;x++){
+            for (int y = -intensity; y < intensity+1;y++){
+                for (int z = -intensity; z < intensity+1;z++){
+                    Vec3 offset = new Vec3(x,y,z).normalize().multiply(spawnDistanceFactor,spawnDistanceFactor,spawnDistanceFactor);
+                    Vec3 finalpos = position.add(offset);
+                    world.addParticle(ParticlesRegistry.SNOWFLAKE_PARTICLE.get(),finalpos.x,finalpos.y,finalpos.z,offset.x*speedFactor,offset.y*speedFactor,offset.z*speedFactor);
+
+                }
+            }
         }
     }
 }
