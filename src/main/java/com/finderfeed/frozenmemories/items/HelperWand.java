@@ -3,6 +3,7 @@ package com.finderfeed.frozenmemories.items;
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.events.ClientForgeEventHandler;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import com.finderfeed.frozenmemories.misc.ProgressionState;
@@ -30,7 +31,7 @@ public class HelperWand extends Item {
     private static final String pos1tag = "pos1";
 
     public HelperWand() {
-        super(new Properties().stacksTo(1).tab(FrozenMemories.FROZEN_MEMORIES));
+        super(new Properties().stacksTo(1));
     }
 
     @Override
@@ -45,6 +46,9 @@ public class HelperWand extends Item {
                 System.out.println("set to 0");
             }
         }
+//        if (world.isClientSide){
+//            ClientForgeEventHandler.triggerProgressionShader();
+//        }
 //        if (world instanceof ServerLevel serverLevel){
 //            System.out.println(serverLevel.getStructureManager().get(new ResourceLocation(FrozenMemories.MOD_ID,"stage_structures/stage_0")));
 //        }

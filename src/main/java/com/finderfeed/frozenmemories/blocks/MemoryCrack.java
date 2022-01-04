@@ -5,6 +5,8 @@ import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_s
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.helpers.Helpers;
 import com.finderfeed.frozenmemories.misc.MemoryTeleporter;
+import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
+import com.finderfeed.frozenmemories.packet_handler.packets.TriggerOutOfMemoryDimShader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkDirection;
 
 import java.util.List;
 
@@ -63,7 +66,9 @@ public class MemoryCrack extends Block {
                         PlayerProgressionStage.incrementPlayerProgressionStage(player);
                     }
                     player.getInventory().load(player.getPersistentData().getList(Helpers.TAG_INVENTORY,10));
+                    PacketHandler.INSTANCE.sendTo(new TriggerOutOfMemoryDimShader(),player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
                     player.changeDimension(destination, teleporter);
+
                 }
             }
         }

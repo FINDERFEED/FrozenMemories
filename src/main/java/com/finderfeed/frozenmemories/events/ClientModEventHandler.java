@@ -73,7 +73,18 @@ public class ClientModEventHandler {
             registerDefaultUnknownItemProperty(ItemsRegistry.SKATES.get());
             registerDefaultUnknownItemProperty(ItemsRegistry.MAGIC_ICICLE.get());
             registerDefaultUnknownItemProperty(ItemsRegistry.ICICLE_STAFF.get());
-
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_PICKAXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_PICKAXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_PICKAXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_AXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_AXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_AXE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_HOE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_HOE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_HOE.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_DIAMOND_SHOVEL.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_IRON_SHOVEL.get());
+            registerDefaultUnknownItemProperty(ItemsRegistry.FROZEN_NETHERITE_SHOVEL.get());
             BlockEntityRenderers.register(TileEntitiesRegistry.MEMORY_TOWER.get(), MemoryTowerRenderer::new);
         });
     }

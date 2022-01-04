@@ -6,7 +6,7 @@
   "passes":
   [
     {
-      "name": "solarforge:wave",
+      "name": "frozenmemories:wave",
       "intarget": "minecraft:main",
       "outtarget": "swap"
     },

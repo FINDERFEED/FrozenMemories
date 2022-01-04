@@ -2,9 +2,13 @@ package com.finderfeed.frozenmemories;
 
 import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
 import com.finderfeed.frozenmemories.registries.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +20,9 @@ import org.apache.logging.log4j.Logger;
 @Mod(FrozenMemories.MOD_ID)
 public class FrozenMemories
 {
-
+    public static final Tag.Named<Block> FROZEN_IRON_TAG = BlockTags.createOptional(new ResourceLocation(FrozenMemories.MOD_ID,"frozen_iron"));
+    public static final Tag.Named<Block> FROZEN_DIAMOND_TAG = BlockTags.createOptional(new ResourceLocation(FrozenMemories.MOD_ID,"frozen_diamond"));
+    public static final Tag.Named<Block> FROZEN_NETHERITE_TAG = BlockTags.createOptional(new ResourceLocation(FrozenMemories.MOD_ID,"frozen_netherite"));
     public static final CreativeModeTab FROZEN_MEMORIES = new CreativeModeTab("frozen.memories") {
         @Override
         public ItemStack makeIcon() {
@@ -45,6 +51,9 @@ public class FrozenMemories
     }
 
 
+    public static ResourceLocation createLocation(String name){
+        return new ResourceLocation(MOD_ID,name);
+    }
 
 
 }

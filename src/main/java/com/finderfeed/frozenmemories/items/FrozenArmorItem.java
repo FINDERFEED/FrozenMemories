@@ -6,6 +6,7 @@ import com.finderfeed.frozenmemories.helpers.ClientHelpers;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.packet_handler.PacketHandler;
 import com.finderfeed.frozenmemories.packet_handler.packets.RequestPlayerStageUpdate;
+import com.finderfeed.frozenmemories.registries.ItemsRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -32,7 +33,7 @@ public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
 
-        if (entity instanceof Player player ){
+        if (entity instanceof Player player && entity.level.isClientSide){
 
             PacketHandler.INSTANCE.sendToServer(new RequestPlayerStageUpdate());
 
@@ -65,7 +66,9 @@ public class FrozenArmorItem extends ArmorItem implements FrozenMemoriesItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        components.add(new TextComponent("Speed II when in icy and taiga biomes (Full set is needed)").withStyle(ChatFormatting.AQUA));
+        if (stack.getItem() != ItemsRegistry.SKATES.get()) {
+            components.add(new TextComponent("Speed II when in icy and taiga biomes (Full set is needed)").withStyle(ChatFormatting.AQUA));
+        }
         super.appendHoverText(stack, level, components, flag);
     }
 }

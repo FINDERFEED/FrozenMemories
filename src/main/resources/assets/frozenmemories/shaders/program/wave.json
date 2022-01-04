@@ -5,7 +5,7 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "blit",
-  "fragment": "solarforge:wave",
+  "fragment": "frozenmemories:wave",
   "attributes":
   [
     "Position"

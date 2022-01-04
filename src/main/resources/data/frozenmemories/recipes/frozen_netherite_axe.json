@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "frozenmemories:frozen_diamond_axe"
+  },
+  "addition": {
+    "item": "frozenmemories:frozen_netherite"
+  },
+  "result": {
+    "item": "frozenmemories:frozen_netherite_axe"
+  }
+}

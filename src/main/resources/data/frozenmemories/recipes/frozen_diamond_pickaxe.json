@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    " G ",
+    " G "
+  ],
+  "key": {
+    "F": {
+      "item": "frozenmemories:frozen_diamond"
+    },
+    "G": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "frozenmemories:frozen_diamond_pickaxe"
+
+  }
+}

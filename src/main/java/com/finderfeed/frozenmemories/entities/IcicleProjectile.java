@@ -17,17 +17,19 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class IcicleProjectile extends AbstractHurtingProjectile {
+
+    private boolean shouldBeRemoved = false;
+
     public IcicleProjectile(EntityType<? extends AbstractHurtingProjectile> proj,Level p_36834_) {
         super(proj, p_36834_);
     }
 
     @Override
     public void tick() {
-
-        super.tick();
-        if (this.tickCount >= 1200){
+        if (this.tickCount >= 1200 || shouldBeRemoved){
             this.discard();
         }
+        super.tick();
     }
 
     @Override
@@ -64,16 +66,16 @@ public class IcicleProjectile extends AbstractHurtingProjectile {
 
 
             if (!e.level.isClientSide) {
-                entity.hurt(DamageSource.MAGIC, 5);
+                entity.hurt(DamageSource.MAGIC, 8);
                 entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 1));
             }
             if (e.level.isClientSide) {
                 Helpers.createSnowflakeParticleExplosion(level, e.position().add(0, e.getBbHeight() / 2, 0),2,0.04f,1f);
             }
             super.onHitEntity(hit);
-            this.setRemoved(RemovalReason.DISCARDED);
+
         }
 
-
+        shouldBeRemoved = true;
     }
 }

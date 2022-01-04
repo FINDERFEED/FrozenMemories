@@ -3,6 +3,7 @@ package com.finderfeed.frozenmemories.packet_handler;
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.packet_handler.packets.ClientboundUpdatePlayerStatePacket;
 import com.finderfeed.frozenmemories.packet_handler.packets.RequestPlayerStageUpdate;
+import com.finderfeed.frozenmemories.packet_handler.packets.TriggerOutOfMemoryDimShader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,7 @@ public class PacketHandler {
     public static void registerPackets(){
         INSTANCE.registerMessage(nextID(), ClientboundUpdatePlayerStatePacket.class,ClientboundUpdatePlayerStatePacket::toBytes,ClientboundUpdatePlayerStatePacket::new,ClientboundUpdatePlayerStatePacket::handle);
         INSTANCE.registerMessage(nextID(), RequestPlayerStageUpdate.class,RequestPlayerStageUpdate::toBytes,RequestPlayerStageUpdate::new,RequestPlayerStageUpdate::handle);
+        INSTANCE.registerMessage(nextID(), TriggerOutOfMemoryDimShader.class,TriggerOutOfMemoryDimShader::toBytes,TriggerOutOfMemoryDimShader::new,TriggerOutOfMemoryDimShader::handle);
 
     }
 

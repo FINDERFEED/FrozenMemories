@@ -35,6 +35,10 @@ public class MemoryTowerTile extends BlockEntity {
             ALREADY_USED_BY.add(uuid);
         }
     }
+
+    public boolean hasPlayer(Player player){
+        return ALREADY_USED_BY.contains(player.getUUID());
+    }
     public void damage(){
         if (remainingHP >= 0){
             remainingHP--;

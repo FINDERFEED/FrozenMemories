@@ -3,6 +3,7 @@ package com.finderfeed.frozenmemories.events;
 
 import com.finderfeed.frozenmemories.FrozenMemories;
 import com.finderfeed.frozenmemories.entities.FrostedZombie;
+import com.finderfeed.frozenmemories.misc.FMToolTiers;
 import com.finderfeed.frozenmemories.registries.BlocksRegistry;
 import com.finderfeed.frozenmemories.registries.EntitiesRegistry;
 import com.finderfeed.frozenmemories.registries.FeaturesRegistry;
@@ -13,6 +14,7 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -20,10 +22,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FrozenMemories.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventHandler {
@@ -39,6 +44,12 @@ public class ModEventHandler {
     @SubscribeEvent
     public static void registerConfiguredAndPlacedFeatures(FMLCommonSetupEvent event){
         event.enqueueWork(()->{
+
+            TierSortingRegistry.registerTier(FMToolTiers.FROZEN_IRON,FrozenMemories.createLocation("frozen_iron"), List.of(Tiers.STONE),List.of(Tiers.DIAMOND));
+            TierSortingRegistry.registerTier(FMToolTiers.FROZEN_DIAMOND,FrozenMemories.createLocation("frozen_diamond"), List.of(Tiers.DIAMOND),List.of(Tiers.NETHERITE));
+            TierSortingRegistry.registerTier(FMToolTiers.FROZEN_NETHERITE,FrozenMemories.createLocation("frozen_netherite"), List.of(Tiers.DIAMOND),List.of());
+
+
             ConfiguredFeatures.FROZEN_ZOMBIE_TRAPS = FeaturesRegistry.FROZEN_ZOMBIE_TRAP_FEATURE.get().configured(NoneFeatureConfiguration.INSTANCE);
             registerConfiguredFeature(ConfiguredFeatures.FROZEN_ZOMBIE_TRAPS,"frozen_zombie_traps");
 

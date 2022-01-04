@@ -1,5 +1,6 @@
 package com.finderfeed.frozenmemories.blocks;
 
+import com.finderfeed.frozenmemories.blocks.tileentities.MemoryTowerTile;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.LoreTileEntity;
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
@@ -41,39 +42,47 @@ public class MemoryTowerBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult ctx) {
         if (world instanceof  ServerLevel level && hand == InteractionHand.MAIN_HAND && world.dimension() == Level.OVERWORLD){
+
             int stage = PlayerProgressionStage.getPlayerProgressionStage(player);
             if (stage <= 7){
-                BlockPos randomPos = new BlockPos(
-                        Helpers.randomPlusMinus()*world.random.nextInt(10000000),120,
-                        Helpers.randomPlusMinus()*world.random.nextInt(1000000));
-                MemoryTeleporter teleporter = new MemoryTeleporter(randomPos);
-                if (world.getServer() != null){
-                    ServerLevel destination = world.getServer().getLevel(ForgeEventHandler.MEMORY);
-                    if (destination != null){
-                        StructureTemplate template = Helpers.getStageStructureTemplate(level,stage+1);
-                        saveInventoryAndPos(player);
+                if (world.getBlockEntity(pos) instanceof MemoryTowerTile towerTile) {
+                    if (!towerTile.hasPlayer(player)) {
+                        towerTile.addUser(player);
+                        BlockPos randomPos = new BlockPos(
+                                Helpers.randomPlusMinus() * world.random.nextInt(10000000), 120,
+                                Helpers.randomPlusMinus() * world.random.nextInt(1000000));
+                        MemoryTeleporter teleporter = new MemoryTeleporter(randomPos);
+                        if (world.getServer() != null) {
+                            ServerLevel destination = world.getServer().getLevel(ForgeEventHandler.MEMORY);
+                            if (destination != null) {
+                                StructureTemplate template = Helpers.getStageStructureTemplate(level, stage + 1);
+                                saveInventoryAndPos(player);
 
-                        destination.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(randomPos), 3,randomPos);
-                        StructurePlaceSettings set = new StructurePlaceSettings().addProcessor(BlockIgnoreProcessor.AIR).setRandom(destination.random).setRotation(Rotation.NONE).setBoundingBox(BoundingBox.infinite());
-                        player.changeDimension(destination, teleporter);
-                        ProgressionState p = ProgressionState.STATES.get(stage);
-                        BlockPos position = p.getOffset().apply(randomPos);
-                        for (ItemWithQuantity i : p.getItems()){
-                            player.getInventory().add(new ItemStack(i.getItem(),i.getQuantity()));
-                        }
-                        setBoxAround(destination,position);
-
-                        ForgeEventHandler.addServerTask(new ServerWorldTask(60,ForgeEventHandler.MEMORY,()->{
-                            clearBoxAround(destination,position);
-                            template.placeInWorld(destination,randomPos,randomPos,set,destination.random,Block.UPDATE_CLIENTS);
-                            template.filterBlocks(randomPos,set,BlocksRegistry.LORE_TILE_BLOCK.get()).forEach((info)->{
-                                BlockEntity tile = destination.getBlockEntity(info.pos);
-                                if (tile instanceof LoreTileEntity tileEntity){
-                                    tileEntity.setPlayerProgressionState(stage+1);
+                                destination.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(randomPos), 3, randomPos);
+                                StructurePlaceSettings set = new StructurePlaceSettings().addProcessor(BlockIgnoreProcessor.AIR).setRandom(destination.random).setRotation(Rotation.NONE).setBoundingBox(BoundingBox.infinite());
+                                player.changeDimension(destination, teleporter);
+                                ProgressionState p = ProgressionState.STATES.get(stage);
+                                BlockPos position = p.getOffset().apply(randomPos);
+                                for (ItemWithQuantity i : p.getItems()) {
+                                    player.getInventory().add(new ItemStack(i.getItem(), i.getQuantity()));
                                 }
-                            });
-                        }));
-                        //template.placeInWorld(destination,randomPos,randomPos,set,destination.random,4);
+                                setBoxAround(destination, position);
+
+                                ForgeEventHandler.addServerTask(new ServerWorldTask(60, ForgeEventHandler.MEMORY, () -> {
+                                    clearBoxAround(destination, position);
+                                    template.placeInWorld(destination, randomPos, randomPos, set, destination.random, Block.UPDATE_CLIENTS);
+                                    template.filterBlocks(randomPos, set, BlocksRegistry.LORE_TILE_BLOCK.get()).forEach((info) -> {
+                                        BlockEntity tile = destination.getBlockEntity(info.pos);
+                                        if (tile instanceof LoreTileEntity tileEntity) {
+                                            tileEntity.setPlayerProgressionState(stage + 1);
+                                        }
+                                    });
+                                }));
+                                //template.placeInWorld(destination,randomPos,randomPos,set,destination.random,4);
+                            }
+                        }
+                    }else{
+                        player.sendMessage(new TextComponent("Tower is empty."),player.getUUID());
                     }
                 }
             }else{

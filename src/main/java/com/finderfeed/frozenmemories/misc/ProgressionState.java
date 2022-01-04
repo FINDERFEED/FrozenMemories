@@ -52,7 +52,7 @@ public enum ProgressionState {
     public static final int FIVE = 5;
     public static final int SIX = 6;
     public static final int SEVEN = 7;
-    public static final int EIGHT = 7;
+    public static final int EIGHT = 8;
 
     public static final Map<Integer,ProgressionState> STATES = Map.of(
             0, STAGE_1,

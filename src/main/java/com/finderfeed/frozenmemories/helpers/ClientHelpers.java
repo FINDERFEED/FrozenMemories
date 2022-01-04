@@ -1,11 +1,13 @@
 package com.finderfeed.frozenmemories.helpers;
 
 import com.finderfeed.frozenmemories.blocks.tileentities.lore_tile_entity.lore_system.PlayerProgressionStage;
+import com.finderfeed.frozenmemories.events.ClientForgeEventHandler;
 import com.finderfeed.frozenmemories.events.ForgeEventHandler;
 import com.finderfeed.frozenmemories.items.FrozenItem;
 import com.finderfeed.frozenmemories.items.FrozenMemoriesSword;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.ItemsRegistry;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -33,6 +35,17 @@ public class ClientHelpers {
         matrices.mulPose(Vector3f.XP.rotationDegrees((float)angleX));
     }
 
+    public static void triggerOutOfDimPortalShader(){
+        ClientForgeEventHandler.triggerProgressionShader();
+    }
+
+    public static void renderHandManually(PoseStack matrixStack,float partialTicks){
+        boolean render = Minecraft.getInstance().gameRenderer.renderHand;
+        if (render){
+            RenderSystem.clear(256, Minecraft.ON_OSX);
+            Minecraft.getInstance().gameRenderer.renderItemInHand(matrixStack,Minecraft.getInstance().gameRenderer.getMainCamera(),partialTicks);
+        }
+    }
 
 
     public static Component getNameBasedOnNeededLevel(FrozenMemoriesItem item){

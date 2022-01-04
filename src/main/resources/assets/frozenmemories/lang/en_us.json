@@ -28,17 +28,17 @@
   "item.frozenmemories.skates": "Skates",
   "itemGroup.frozen.memories": "Frozen memories",
   "item.frozenmemories.magic_icicle": "Magic icicle",
-  "item.frozenmemories.icicle_staff": "Icicle staff"
-
-
-
-
-
-
-
-
-
-
-
-
+  "item.frozenmemories.icicle_staff": "Icicle staff",
+  "item.frozenmemories.frozen_iron_hoe": "Frozen iron hoe",
+  "item.frozenmemories.frozen_diamond_hoe": "Frozen diamond hoe",
+  "item.frozenmemories.frozen_netherite_hoe": "Frozen netherite hoe",
+  "item.frozenmemories.frozen_iron_pickaxe": "Frozen iron pickaxe",
+  "item.frozenmemories.frozen_diamond_pickaxe": "Frozen diamond pickaxe",
+  "item.frozenmemories.frozen_netherite_pickaxe": "Frozen netherite pickaxe",
+  "item.frozenmemories.frozen_iron_axe": "Frozen iron axe",
+  "item.frozenmemories.frozen_diamond_axe": "Frozen diamond axe",
+  "item.frozenmemories.frozen_netherite_axe": "Frozen netherite axe",
+  "item.frozenmemories.frozen_iron_shovel": "Frozen iron shovel",
+  "item.frozenmemories.frozen_diamond_shovel": "Frozen diamond shovel",
+  "item.frozenmemories.frozen_netherite_shovel": "Frozen netherite shovel"
 }
