@@ -9,6 +9,7 @@ import com.finderfeed.frozenmemories.entities.models.MeteoriteModel;
 import com.finderfeed.frozenmemories.entities.renderers.FrostedZombieRenderer;
 import com.finderfeed.frozenmemories.entities.renderers.FrozenMeteoriteRenderer;
 import com.finderfeed.frozenmemories.entities.renderers.IcicleProjectileRenderer;
+import com.finderfeed.frozenmemories.helpers.ClientHelpers;
 import com.finderfeed.frozenmemories.items.FrozenItem;
 import com.finderfeed.frozenmemories.misc.FrozenMemoriesItem;
 import com.finderfeed.frozenmemories.registries.EntitiesRegistry;
@@ -92,13 +93,14 @@ public class ClientModEventHandler {
 
     public static void registerDefaultUnknownItemProperty(FrozenMemoriesItem item){
         ItemProperties.register(item.getFrozenItem(),new ResourceLocation(FrozenMemories.MOD_ID,"unlocked"),
-                (stack,level,player,d)->{
+                (stack,level,p,d)->{
+                    Player player = ClientHelpers.clientPlayer();
                     int reqLvl = item.getNeededPlayerLevel();
-                    if (player instanceof Player pl) {
-                        if (pl.level.dimension() == ForgeEventHandler.MEMORY){
+                    if (player != null) {
+                        if (player.level.dimension() == ForgeEventHandler.MEMORY){
                             return 0;
                         }
-                        int playerLvl = PlayerProgressionStage.getPlayerProgressionStage(pl);
+                        int playerLvl = PlayerProgressionStage.getPlayerProgressionStage(player);
                         return playerLvl >= reqLvl ? 0 : 1;
                     }else{
                         return 0;
